@@ -8,7 +8,7 @@ namespace RpgGame
     {
         protected override void Init()
         {
-            
+            RegisterSystem<IInputSystem>(new InputSystem());
         }
     }
 }
