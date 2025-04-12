@@ -12,9 +12,9 @@ namespace RpgGame
         protected override void OnInit()
         {
             transform = new Dictionary<int, TransformData>();
-            if(transform.TryAdd(0, this.GetDataFactory().Get_TransformData()))
+            if(!transform.TryAdd(0, new TransformData()))
             {
-                Debug.Log("fail to init model : " + GetType().Name);
+                Debug.LogError("fail to init model : " + GetType().Name);
             }
         }
 
@@ -34,6 +34,7 @@ namespace RpgGame
             if(transform.ContainsKey(id)) 
             {
                 transform[id] = data;
+                this.SendEvent(new TransFormDataChangeEvent { data = transform[id] });
             }
             else
             {
@@ -43,9 +44,10 @@ namespace RpgGame
 
         public void ChangePosition(int id, Vector3 value)
         {
-            if(!transform.ContainsKey(id))
+            if(transform.ContainsKey(id))
             {
                 transform[id].position += value;
+                this.SendEvent(new TransFormDataChangeEvent { data = transform[id] });
             }
             else
             {

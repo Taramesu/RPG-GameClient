@@ -5,48 +5,49 @@ using UnityEngine.InputSystem.Controls;
 
 namespace RpgGame
 {
-    public interface IInputSystem : ISystem { }
-    public class InputSystem : AbstractSystem, IInputSystem
+    public class InputSystem : AbstractSystem
     {
         protected override void OnInit() => CommonMono.AddUpdateAction(OnUpdate);
 
         private void OnUpdate()
         {
             Keyboard keyboard = Keyboard.current;
-            if(keyboard.anyKey.wasPressedThisFrame)
-            {
-                foreach(var key in keyboard.allKeys)
-                {
-                    if(key.wasPressedThisFrame)
-                    {
-                        Debug.Log("按下的键是："+key.name);
-                        ControlTrans(key);
-                    }
-                }
-            }
+            //if (keyboard.anyKey.isPressed)
+            //{
+            //    Debug.Log("anykey is pressed now!");
+            //    foreach (var key in keyboard.allKeys)
+            //    {
+            //        if (key.wasPressedThisFrame)
+            //        {
+            //            //Debug.Log("按下的键是："+key.name);
+            //            ControlTrans(key);
+            //        }
+            //    }
+            //}
+            MoveInput(keyboard);
         }
 
-        private void ControlTrans(KeyControl key)
+        private void MoveInput(Keyboard keyboard)
         {
-            if(key.name == "w")
+            if(keyboard.wKey.isPressed)
             {
                 this.SendEvent(new ControlEvent { id = 0, Control = ControlEnum.forward });
                 return;
             }
 
-            if (key.name == "s")
+            if (keyboard.sKey.isPressed)
             {
                 this.SendEvent(new ControlEvent { id = 0, Control = ControlEnum.backward });
                 return;
             }
 
-            if (key.name == "a")
+            if (keyboard.aKey.isPressed)
             {
                 this.SendEvent(new ControlEvent {id = 0, Control = ControlEnum.left });
                 return;
             }
 
-            if (key.name == "d")
+            if (keyboard.dKey.isPressed)
             {
                 this.SendEvent(new ControlEvent {id = 0, Control = ControlEnum.right });
                 return;

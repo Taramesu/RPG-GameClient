@@ -8,7 +8,10 @@ namespace RpgGame
     {
         protected override void Init()
         {
-            RegisterSystem<IInputSystem>(new InputSystem());
+            RegisterSystem(new InputSystem());
+            RegisterSystem(new MoveSystem());
+
+            RegisterModel(new TransFormModel());
         }
     }
 }
