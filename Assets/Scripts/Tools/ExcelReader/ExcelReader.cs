@@ -8,56 +8,64 @@ namespace XlsxHelper
 {
     public static class ExcelReader
     {
-        public static (string className, string[] columnNames, string[] columnTypes, List<List<object>> dataRows) ReadExcel(string filePath)
+        public static List<(string className, string[] columnNames, string[] columnTypes, List<List<object>> dataRows)> ReadExcel(string filePath)
         {
             using (FileStream fs = new(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (ExcelPackage package = new ExcelPackage(fs))
             {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[1]; // 获取第一个工作表
-                int rowCount = worksheet.Dimension.End.Row;
-                int colCount = worksheet.Dimension.End.Column;
+                List<(string className, string[] columnNames, string[] columnTypes, List<List<object>> dataRows)> sheets = new();
 
-                string className = worksheet.Name; // 使用工作表名称作为类名
-                string[] columnNames = new string[colCount];
-                string[] columnTypes = new string[colCount];
-                List<List<object>> dataRows = new List<List<object>>();
-
-                // 提取列名（第一行）
-                for (int col = 1; col <= colCount; col++)
+                foreach(var sheet in package.Workbook.Worksheets) 
                 {
-                    columnNames[col - 1] = worksheet.Cells[1, col].Text;
-                    StringBuilder sb = new(columnNames[col - 1]);
-                    sb[0] = char.ToUpper(sb[0]);
-                    columnNames[col - 1] = sb.ToString();
-                }
+                    ExcelWorksheet worksheet = sheet; // 获取第一个工作表
+                    int rowCount = worksheet.Dimension.End.Row;
+                    int colCount = worksheet.Dimension.End.Column;
 
-                // 提取类型信息（第二行）
-                for (int col = 1; col <= colCount; col++)
-                {
-                    columnTypes[col - 1] = worksheet.Cells[2, col].Text;
-                }
+                    string className = worksheet.Name; // 使用工作表名称作为类名
+                    string[] columnNames = new string[colCount];
+                    string[] columnTypes = new string[colCount];
+                    List<List<object>> dataRows = new List<List<object>>();
 
-                // 读取数据行
-                for (int row = 3; row <= rowCount; row++)
-                {
-                    List<object> rowData = new List<object>();
+                    // 提取列名（第一行）
                     for (int col = 1; col <= colCount; col++)
                     {
-                        // 处理空值
-                        if (worksheet.Cells[row, col].Value == null)
-                        {
-                            rowData.Add("null");
-                        }
-                        else
-                        {
-                            Debug.Log($"row:{row}, col:{col}, value:{worksheet.Cells[row, col].Value}");
-                            rowData.Add(worksheet.Cells[row, col].Value);
-                        }
+                        columnNames[col - 1] = worksheet.Cells[1, col].Text;
+                        StringBuilder sb = new(columnNames[col - 1]);
+                        sb[0] = char.ToUpper(sb[0]);
+                        columnNames[col - 1] = sb.ToString();
                     }
-                    dataRows.Add(rowData);
+
+                    // 提取类型信息（第二行）
+                    for (int col = 1; col <= colCount; col++)
+                    {
+                        columnTypes[col - 1] = worksheet.Cells[2, col].Text;
+                    }
+
+                    // 读取数据行
+                    for (int row = 3; row <= rowCount; row++)
+                    {
+                        List<object> rowData = new List<object>();
+                        for (int col = 1; col <= colCount; col++)
+                        {
+                            // 处理空值
+                            if (worksheet.Cells[row, col].Value == null)
+                            {
+                                rowData.Add("null");
+                            }
+                            else
+                            {
+                                Debug.Log($"row:{row}, col:{col}, value:{worksheet.Cells[row, col].Value}");
+                                rowData.Add(worksheet.Cells[row, col].Value);
+                            }
+                        }
+                        dataRows.Add(rowData);
+                    }
+
+                    sheets.Add((className, columnNames, columnTypes, dataRows));
                 }
 
-                return (className, columnNames, columnTypes, dataRows);
+
+                return sheets;
             }
         }
     }
