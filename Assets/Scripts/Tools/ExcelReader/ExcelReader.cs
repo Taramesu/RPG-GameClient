@@ -17,7 +17,7 @@ namespace XlsxHelper
 
                 foreach(var sheet in package.Workbook.Worksheets) 
                 {
-                    ExcelWorksheet worksheet = sheet; // 获取第一个工作表
+                    ExcelWorksheet worksheet = sheet; // 获取工作表
                     int rowCount = worksheet.Dimension.End.Row;
                     int colCount = worksheet.Dimension.End.Column;
 
@@ -29,8 +29,9 @@ namespace XlsxHelper
                     // 提取列名（第一行）
                     for (int col = 1; col <= colCount; col++)
                     {
-                        columnNames[col - 1] = worksheet.Cells[1, col].Text;
-                        StringBuilder sb = new(columnNames[col - 1]);
+                        if(worksheet.Cells[1, col].Value == null)
+                            continue;
+                        StringBuilder sb = new(worksheet.Cells[1, col].Text);
                         sb[0] = char.ToUpper(sb[0]);
                         columnNames[col - 1] = sb.ToString();
                     }
@@ -38,6 +39,8 @@ namespace XlsxHelper
                     // 提取类型信息（第二行）
                     for (int col = 1; col <= colCount; col++)
                     {
+                        if(worksheet.Cells[1, col].Value == null)
+                            continue;
                         columnTypes[col - 1] = worksheet.Cells[2, col].Text;
                     }
 
@@ -47,6 +50,8 @@ namespace XlsxHelper
                         List<object> rowData = new List<object>();
                         for (int col = 1; col <= colCount; col++)
                         {
+                            if(worksheet.Cells[1, col].Value == null)
+                                continue;
                             // 处理空值
                             if (worksheet.Cells[row, col].Value == null)
                             {
