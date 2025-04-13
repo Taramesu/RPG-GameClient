@@ -12,6 +12,7 @@ namespace RpgGame
             RegisterSystem(new MoveSystem());
 
             RegisterModel(new TransFormModel());
+            RegisterModel(new EntityModel());
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace RpgGame
 {
-    public class PropertyData
+    public partial class PropertyData
     {
         public float Hp;
 
@@ -17,5 +17,21 @@ namespace RpgGame
         public float moveSpeed;
 
         public float attackSpeed;
+    }
+
+    public partial class PropertyData
+    {
+        public PropertyData(int id) 
+        {
+            var config = BasePropertyTable.GetConfigById(id);
+            Hp = config.BaseHp;
+            Mp = config.BaseMp;
+            ATK = config.BaseATK;
+            DEF = config.BaseDEF;
+            crit = config.BaseCrit;
+            critDMG = config.BaseCritDMG;
+            moveSpeed = config.BaseMoveSpeed;
+            attackSpeed = config.BaseAttackSpeed;
+        }
     }
 }

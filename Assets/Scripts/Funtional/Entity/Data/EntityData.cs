@@ -1,4 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
+using UnityEngine.PlayerLoop;
 
 namespace RpgGame
 {
@@ -16,5 +17,14 @@ namespace RpgGame
     public partial class EntityData
     {
         public int level;
+
+        public EntityData(int id)
+        {
+            var config = EntityTable.GetConfigById(id);
+            this.id = id;
+            name = config.Name;
+            exp = 0;
+            property = new PropertyData(id);
+        }
     }
 }
