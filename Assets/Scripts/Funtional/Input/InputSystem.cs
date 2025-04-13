@@ -1,9 +1,10 @@
 using QFramework;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace RpgGame
 {
-    public class InputSystem : AbstractSystem
+    public class InputSystem : AbstractSystem, ICanGetSystem
     {
         protected override void OnInit() => CommonMono.AddUpdateAction(OnUpdate);
 
@@ -15,25 +16,28 @@ namespace RpgGame
 
         private void MoveInput(Keyboard keyboard)
         {
-            if(keyboard.wKey.isPressed)
+            Vector3 dir = new Vector3(0, 0, 0);
+            if (keyboard.wKey.isPressed)
             {
-                this.SendEvent(new ControlEvent { id = 0, Control = ControlEnum.forward });
+                dir += new Vector3(0, 0, 1);
             }
 
             if (keyboard.sKey.isPressed)
             {
-                this.SendEvent(new ControlEvent { id = 0, Control = ControlEnum.backward });
+                dir += new Vector3(0, 0, -1);
             }
 
             if (keyboard.aKey.isPressed)
             {
-                this.SendEvent(new ControlEvent {id = 0, Control = ControlEnum.left });
+                dir += new Vector3(-1, 0, 0);
             }
 
             if (keyboard.dKey.isPressed)
             {
-                this.SendEvent(new ControlEvent {id = 0, Control = ControlEnum.right });
+                dir += new Vector3(1, 0, 0);
             }
+            //this.SendEvent(new ControlEvent { id = 0, dir = dir.normalized });
+            this.GetSystem<MoveSystem>().Move(0, dir.normalized);
         }
     }
 }

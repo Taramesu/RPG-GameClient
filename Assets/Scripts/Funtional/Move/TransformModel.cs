@@ -4,15 +4,14 @@ using UnityEngine;
 
 namespace RpgGame
 {
-    public class TransFormModel : AbstractModel
+    public class TransFormModel : AbstractModel, ICanGetModel
     {
         //id,transformData
-        private Dictionary<int, TransformData> transform;
-
+        private Dictionary<int, TransformData> transforms;
         protected override void OnInit()
         {
-            transform = new Dictionary<int, TransformData>();
-            if(!transform.TryAdd(0, new TransformData()))
+            transforms = new Dictionary<int, TransformData>();
+            if(!transforms.TryAdd(0, new TransformData()))
             {
                 Debug.LogError("fail to init model : " + GetType().Name);
             }
@@ -20,7 +19,7 @@ namespace RpgGame
 
         public TransformData GetData(int id)
         {
-            if (transform.TryGetValue(id, out TransformData transformData)) 
+            if (transforms.TryGetValue(id, out TransformData transformData)) 
             {
                 return transformData;
             }
@@ -31,10 +30,10 @@ namespace RpgGame
 
         public void ChangeData(int id, TransformData data)
         {
-            if(transform.ContainsKey(id)) 
+            if(transforms.ContainsKey(id)) 
             {
-                transform[id] = data;
-                this.SendEvent(new TransFormDataChangeEvent { data = transform[id] });
+                transforms[id] = data;
+                this.SendEvent(new TransFormDataChangeEvent { data = transforms[id] });
             }
             else
             {
@@ -44,10 +43,10 @@ namespace RpgGame
 
         public void ChangePosition(int id, Vector3 value)
         {
-            if(transform.ContainsKey(id))
+            if(transforms.ContainsKey(id))
             {
-                transform[id].position += value;
-                this.SendEvent(new TransFormDataChangeEvent { data = transform[id] });
+                transforms[id].position += value;
+                this.SendEvent(new TransFormDataChangeEvent { data = transforms[id] });
             }
             else
             {

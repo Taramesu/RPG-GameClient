@@ -1,6 +1,8 @@
+using UnityEngine;
+
 namespace RpgGame
 {
-    public enum ControlEnum
+    public enum DirControlEnum
     {
         forward, backward, left, right
     }
@@ -8,6 +10,7 @@ namespace RpgGame
     public class ControlEvent
     {
         public int id;
-        public ControlEnum Control;
+        public Vector3 dir;
+        //public DirControlEnum Control;
     }
 }
