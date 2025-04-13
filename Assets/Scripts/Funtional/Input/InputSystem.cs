@@ -1,7 +1,5 @@
 using QFramework;
-using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 namespace RpgGame
 {
@@ -12,18 +10,6 @@ namespace RpgGame
         private void OnUpdate()
         {
             Keyboard keyboard = Keyboard.current;
-            //if (keyboard.anyKey.isPressed)
-            //{
-            //    Debug.Log("anykey is pressed now!");
-            //    foreach (var key in keyboard.allKeys)
-            //    {
-            //        if (key.wasPressedThisFrame)
-            //        {
-            //            //Debug.Log("按下的键是："+key.name);
-            //            ControlTrans(key);
-            //        }
-            //    }
-            //}
             MoveInput(keyboard);
         }
 

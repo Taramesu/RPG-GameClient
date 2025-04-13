@@ -20,22 +20,22 @@ namespace RpgGame
             var speed = eModel.GetData(0).property.moveSpeed;
             if(e.Control == ControlEnum.forward) 
             {
-                var value = new Vector3(speed,0,0);
+                var value = new Vector3(0, 0, speed);
                 tModel.ChangePosition(e.id, value);
             }
             if (e.Control == ControlEnum.backward)
             {
-                var value = new Vector3(-speed, 0, 0);
+                var value = new Vector3(0, 0, -speed);
                 tModel.ChangePosition(e.id, value);
             }
             if (e.Control == ControlEnum.left)
             {
-                var value = new Vector3(0, 0, speed);
+                var value = new Vector3(-speed, 0, 0);
                 tModel.ChangePosition(e.id, value);
             }
             if (e.Control == ControlEnum.right)
             {
-                var value = new Vector3(0, 0, -speed);
+                var value = new Vector3(speed, 0, 0);
                 tModel.ChangePosition(e.id, value);
             }
         }

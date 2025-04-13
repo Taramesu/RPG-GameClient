@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RpgGame
 {
-    public class TransFormModel : AbstractModel, ICanGetDataFactory
+    public class TransFormModel : AbstractModel
     {
         //id,transformData
         private Dictionary<int, TransformData> transform;

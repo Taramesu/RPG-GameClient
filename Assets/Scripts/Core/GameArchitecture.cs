@@ -10,6 +10,7 @@ namespace RpgGame
         {
             RegisterSystem(new InputSystem());
             RegisterSystem(new MoveSystem());
+            RegisterSystem(new CameraSystem());
 
             RegisterModel(new TransFormModel());
             RegisterModel(new EntityModel());
