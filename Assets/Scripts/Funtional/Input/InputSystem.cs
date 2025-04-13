@@ -32,25 +32,21 @@ namespace RpgGame
             if(keyboard.wKey.isPressed)
             {
                 this.SendEvent(new ControlEvent { id = 0, Control = ControlEnum.forward });
-                return;
             }
 
             if (keyboard.sKey.isPressed)
             {
                 this.SendEvent(new ControlEvent { id = 0, Control = ControlEnum.backward });
-                return;
             }
 
             if (keyboard.aKey.isPressed)
             {
                 this.SendEvent(new ControlEvent {id = 0, Control = ControlEnum.left });
-                return;
             }
 
             if (keyboard.dKey.isPressed)
             {
                 this.SendEvent(new ControlEvent {id = 0, Control = ControlEnum.right });
-                return;
             }
         }
     }
