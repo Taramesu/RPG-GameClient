@@ -5,8 +5,8 @@ namespace RpgGame
 {
     public class EntityMonoController : MonoBehaviour, IController
     {
-        private int typeId;
-        private int id;
+        public int typeId;
+        public int id;
         public IArchitecture GetArchitecture()
         {
             return RpgGame.Interface;
@@ -30,6 +30,7 @@ namespace RpgGame
 
         private void OnPositionChange(EntityPositionUpdateEvent context)
         {
+            if(context.typeId == typeId && context.id == id)
             transform.position = context.position;
         }
     }
