@@ -1,7 +1,7 @@
-namespace RpgGame
-{
-    public class TransFormDataChangeEvent
-    {
-        public TransformData data;
-    }
-}
+//namespace RpgGame
+//{
+//    public class TransFormDataChangeEvent
+//    {
+//        public TransformData data;
+//    }
+//}

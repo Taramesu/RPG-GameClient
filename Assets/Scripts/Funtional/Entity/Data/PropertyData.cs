@@ -21,9 +21,9 @@ namespace RpgGame
 
     public partial class PropertyData
     {
-        public PropertyData(int id) 
+        public PropertyData(int typeId) 
         {
-            var config = BasePropertyTable.GetConfigById(id);
+            var config = BasePropertyTable.GetConfigById(typeId);
             Hp = config.BaseHp;
             Mp = config.BaseMp;
             ATK = config.BaseATK;

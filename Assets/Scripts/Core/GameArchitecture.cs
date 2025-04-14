@@ -8,12 +8,12 @@ namespace RpgGame
     {
         protected override void Init()
         {
-            RegisterSystem(new InputSystem());
-            RegisterSystem(new MoveSystem());
-            RegisterSystem(new CameraSystem());
-
-            RegisterModel(new TransFormModel());
             RegisterModel(new EntityModel());
+
+            RegisterSystem(new EntitySystem());
+            RegisterSystem(new MoveSystem());
+            RegisterSystem(new InputSystem());
+            RegisterSystem(new CameraSystem());
         }
     }
 }

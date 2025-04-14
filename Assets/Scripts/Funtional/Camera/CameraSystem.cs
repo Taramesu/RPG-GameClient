@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using QFramework;
 using UnityEngine;
 
@@ -13,7 +14,13 @@ namespace RpgGame
         private Camera mCamera;
         protected override void OnInit()
         {
-            followData = this.GetModel<TransFormModel>().GetData(0);
+            InitCamera();
+        }
+        
+        private async void InitCamera()
+        {
+            await UniTask.WaitUntil(() => this.GetModel<EntityModel>().GetData(0, 0) != null);
+            followData = this.GetModel<EntityModel>().GetData(0, 0).transform;
             offset = new Vector3(0, 10, -10);
             smoothTime = 0.1f;
             velocity = Vector3.zero;

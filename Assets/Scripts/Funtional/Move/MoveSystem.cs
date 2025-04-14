@@ -16,26 +16,21 @@ namespace RpgGame
 
             var eModel = this.GetModel<EntityModel>();
             if (eModel == null) return;
-            var value = e.dir * eModel.GetData(e.id).property.moveSpeed;
-
-            var tModel = this.GetModel<TransFormModel>();
-            if (tModel == null) return;
-            tModel.ChangePosition(e.id, value);
+            var value = e.dir * eModel.GetData(e.typeId,e.id).property.moveSpeed;
+            eModel.UpdatePosition(e.typeId, e.id, value);
         }
 
-        public void Move(int id, Vector3 dir)
+        public void Move(int typeId,int id, Vector3 dir)
         {
             var eModel = this.GetModel<EntityModel>();
             if (eModel == null) return;
-            var value = dir * eModel.GetData(id).property.moveSpeed * Time.deltaTime;
-
-            var tModel = this.GetModel<TransFormModel>();
-            if (tModel == null) return;
-            tModel.ChangePosition(id, value);
+            var value = dir * eModel.GetData(typeId,id).property.moveSpeed * Time.deltaTime;
+            eModel.UpdatePosition(typeId, id, value);
         }
 
         protected override void OnDeinit()
         {
+            this.UnRegisterEvent<ControlEvent>(OnMoveEvent);
         }
     }
 }

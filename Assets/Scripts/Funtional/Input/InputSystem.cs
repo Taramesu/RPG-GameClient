@@ -37,7 +37,7 @@ namespace RpgGame
                 dir += new Vector3(1, 0, 0);
             }
             //this.SendEvent(new ControlEvent { id = 0, dir = dir.normalized });
-            this.GetSystem<MoveSystem>().Move(0, dir.normalized);
+            this.GetSystem<MoveSystem>().Move(0, 0, dir.normalized);
         }
     }
 }

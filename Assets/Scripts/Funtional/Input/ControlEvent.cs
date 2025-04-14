@@ -9,6 +9,7 @@ namespace RpgGame
 
     public class ControlEvent
     {
+        public int typeId;
         public int id;
         public Vector3 dir;
         //public DirControlEnum Control;
