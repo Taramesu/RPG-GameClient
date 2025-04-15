@@ -12,6 +12,7 @@ namespace RpgGame
     {
         public int typeId;
         public int id;
+        public string sUid;
         public Vector3 position;
     }
 }

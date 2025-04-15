@@ -23,8 +23,8 @@ namespace RpgGame
         {
             var config = EntityTable.GetConfigById(typeId);
             if (config == null) return false;
-            var prefab = mResLoader.LoadSync<GameObject>(config.Name);
-            if (prefab == null) return false;
+            //var prefab = mResLoader.LoadSync<GameObject>(config.Name);
+            
 
             //Ìí¼ÓEntityData
             var model = this.GetModel<EntityModel>();
@@ -32,7 +32,10 @@ namespace RpgGame
             var data = new EntityData(typeId, transformData);
             model.TryAddEntity(typeId, data, out int id);
 
-            this.SendEvent(new EntityGenerateEvent { typeId = typeId, id = id, transformData = transformData, prefab = prefab });
+            ResourcesManager.Instance.Load(data);
+            //if (prefab == null) return false;
+
+            //this.SendEvent(new EntityGenerateEvent { typeId = typeId, id = id, transformData = transformData, prefab = prefab });
             return true;
         }
     }

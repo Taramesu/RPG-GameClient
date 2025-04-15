@@ -89,7 +89,7 @@ namespace RpgGame
             var data = GetData(typeId, id);
             if(data == null) return false;
             data.transform.position += value;
-            this.SendEvent(new EntityPositionUpdateEvent() { typeId = typeId, id = id, position = data.transform.position });
+            this.SendEvent(new EntityPositionUpdateEvent() { typeId = typeId, id = id,sUid = data.sUid, position = data.transform.position });
             return true;
         }
 

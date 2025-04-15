@@ -389,7 +389,7 @@ GameObject:
   - component: {fileID: 1099180763}
   - component: {fileID: 1099180762}
   - component: {fileID: 1099180764}
-  - component: {fileID: 1099180765}
+  - component: {fileID: 1099180766}
   m_Layer: 0
   m_Name: GameLaunch
   m_TagString: Untagged
@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5ff2e00906c8694ea0393ea7e5f642f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1099180765
+--- !u!114 &1099180766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -445,9 +445,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1099180761}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e330f9b5343045e4bad01d45edd02efd, type: 3}
+  m_Script: {fileID: 11500000, guid: fcddf10929216df4caa6118120cd943c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delTime: 2
 --- !u!1 &1487323341
 GameObject:
   m_ObjectHideFlags: 0

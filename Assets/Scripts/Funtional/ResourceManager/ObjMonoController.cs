@@ -3,19 +3,12 @@ using UnityEngine;
 
 namespace RpgGame
 {
-    public class EntityMonoController : MonoBehaviour, IController
+    public class ObjMonoController : MonoBehaviour, IController
     {
-        public int typeId;
-        public int id;
+        public string sUid;
         public IArchitecture GetArchitecture()
         {
             return RpgGame.Interface;
-        }
-
-        public void Init(int typeId, int id)
-        {
-            this.typeId = typeId;
-            this.id = id;
         }
 
         private void Start()
@@ -30,7 +23,7 @@ namespace RpgGame
 
         private void OnPositionChange(EntityPositionUpdateEvent context)
         {
-            if(context.typeId == typeId && context.id == id)
+            if(context.sUid == sUid)
             transform.position = context.position;
         }
     }
