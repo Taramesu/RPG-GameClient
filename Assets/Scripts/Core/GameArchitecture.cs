@@ -8,6 +8,7 @@ namespace RpgGame
     {
         protected override void Init()
         {
+            RegisterModel(new ObjModel());
             RegisterModel(new EntityModel());
 
             RegisterSystem(new EntitySystem());

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RpgGame
@@ -7,6 +8,10 @@ namespace RpgGame
         Bounds bound { get; set; }
 
         void InsertObj(ObjData obj);
+
+        bool RemoveObj(ObjData obj);
+
+        List<ObjData> QueryBounds(Bounds bound);
 
         void TriggerMove(Camera camera);
 

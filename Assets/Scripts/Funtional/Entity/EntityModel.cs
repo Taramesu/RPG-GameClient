@@ -14,12 +14,6 @@ namespace RpgGame
             {
                 dataDic = new Dictionary<int, List<EntityData>>();
             }
-            InitEntityData();
-        }
-
-        private void InitEntityData()
-        {
-            //datas.Add(0, new EntityData(0));
         }
 
         public EntityData GetData(int typeId, int id)

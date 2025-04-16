@@ -225,7 +225,7 @@ namespace RpgGame
                 {
                     //resObj = Resources.Load<GameObject>(obj.name);
                     resObj = mResLoader.LoadSync<GameObject>(obj.name);
-                    resObj.GetComponent<ObjMonoController>().sUid = obj.sUid;
+                    resObj.GetComponent<ObjMonoController>().SetsUid(obj.sUid);
                 }
 
                 CreateObj(resObj, sceneObj);
@@ -259,7 +259,7 @@ namespace RpgGame
                         if(b)
                         {
                             resObj = res.Asset.As<GameObject>();
-                            resObj.GetComponent<ObjMonoController>().sUid = obj.sUid;
+                            resObj.GetComponent<ObjMonoController>().SetsUid(obj.sUid);
                         }
                     });
                 }

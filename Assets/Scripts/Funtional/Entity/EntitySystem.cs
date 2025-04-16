@@ -23,19 +23,20 @@ namespace RpgGame
         {
             var config = EntityTable.GetConfigById(typeId);
             if (config == null) return false;
-            //var prefab = mResLoader.LoadSync<GameObject>(config.Name);
             
-
             //Ìí¼ÓEntityData
-            var model = this.GetModel<EntityModel>();
-            if (model == null) return false;
+            var eModel = this.GetModel<EntityModel>();
+            if (eModel == null) return false;
             var data = new EntityData(typeId, transformData);
-            model.TryAddEntity(typeId, data, out int id);
+            eModel.TryAddEntity(typeId, data, out int id);
+
+            var oModel = this.GetModel<ObjModel>();
+            if (oModel == null) return false;
+            oModel.TryAddData(data);
 
             ResourcesManager.Instance.Load(data);
-            //if (prefab == null) return false;
+            this.SendEvent(new EntityGenerateEvent() { data = data });
 
-            //this.SendEvent(new EntityGenerateEvent { typeId = typeId, id = id, transformData = transformData, prefab = prefab });
             return true;
         }
     }

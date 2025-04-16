@@ -3,9 +3,12 @@ using UnityEngine;
 
 namespace RpgGame
 {
-    public class ObjMonoController : MonoBehaviour, IController
+    public class ObjMonoController : MonoBehaviour, IController, ICanSendEvent
     {
-        public string sUid;
+        [SerializeField]
+        private string sUid;
+
+        private Vector3 lastPosition;
         public IArchitecture GetArchitecture()
         {
             return RpgGame.Interface;
@@ -14,11 +17,31 @@ namespace RpgGame
         private void Start()
         {
             this.RegisterEvent<EntityPositionUpdateEvent>(OnPositionChange);
+            lastPosition = gameObject.transform.position;
+        }
+
+        private void Update()
+        {
+            PositionCheck();
         }
 
         private void OnDestroy()
         {
             this.UnRegisterEvent<EntityPositionUpdateEvent>(OnPositionChange);
+        }
+
+        public void SetsUid(string value)
+        {
+            sUid = value;
+        }
+
+        private void PositionCheck()
+        {
+            if (transform.position != lastPosition)
+            {
+                lastPosition = transform.position;
+                this.SendEvent(new ObjPositionChange() { sUid = sUid });
+            }
         }
 
         private void OnPositionChange(EntityPositionUpdateEvent context)
