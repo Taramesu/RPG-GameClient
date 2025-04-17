@@ -71,12 +71,12 @@ namespace RpgGame
 
         public bool RemoveObj(ObjData obj)
         {
-            Debug.Log($"本层为{depth}，子节点数为{(childList == null ? 0 : childList.Length)}");
+            //Debug.Log($"本层为{depth}，子节点数为{(childList == null ? 0 : childList.Length)}");
 
             // 如果当前节点包含该对象，则移除
             if (objList.Contains(obj))
             {
-                Debug.Log($"{depth}层成功移除一个obj");
+                //Debug.Log($"{depth}层成功移除一个obj");
                 objList.Remove(obj);
                 return true;
             }
@@ -87,7 +87,7 @@ namespace RpgGame
                 bool found = false;
                 for (int i = 0; i < childList.Length; ++i)
                 {
-                    Debug.Log($"执行{depth}层第{i}个子节点检查");
+                    //Debug.Log($"执行{depth}层第{i}个子节点检查");
                     if (childList[i] != null)
                     {
                         found =  childList[i].RemoveObj(obj);
