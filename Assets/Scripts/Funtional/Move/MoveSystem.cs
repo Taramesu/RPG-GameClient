@@ -8,6 +8,7 @@ namespace RpgGame
         protected override void OnInit()
         {
             this.RegisterEvent<ControlEvent>(OnMoveEvent);
+            var manager = InputManager.Instance;
         }
 
         private void OnMoveEvent(ControlEvent e)
