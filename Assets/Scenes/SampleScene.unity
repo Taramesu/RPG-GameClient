@@ -583,7 +583,7 @@ MonoBehaviour:
   offset: 1
   mainBound:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 50, y: 10, z: 50}
+    m_Extent: {x: 100, y: 10, z: 100}
   isDebug: 1
 --- !u!4 &1487323343
 Transform:

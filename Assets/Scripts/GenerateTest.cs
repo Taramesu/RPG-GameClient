@@ -52,7 +52,7 @@ namespace RpgGame
             if(keyboard.jKey.wasPressedThisFrame)
             {
                 var es = this.GetSystem<EntitySystem>();
-                int typeId = offset % 3;
+                int typeId = offset % 3 == 0 ? 1 : 2;
                 var pos = new Vector3 (5, 0, offset++);
                 var data = new TransformData { position = pos, rotation = Quaternion.identity, scale = Vector3.one };
                 var go = es.GenerateEntity(typeId,data);
@@ -80,6 +80,44 @@ namespace RpgGame
             {
                 Gizmos.DrawWireCube(mainBound.center, mainBound.size);
             }
+
+            var mCamera = Camera.main;
+
+            Gizmos.color = Color.yellow;
+            Matrix4x4 temp = Gizmos.matrix;
+
+            // 使用摄像机的实际旋转来创建矩阵
+            Gizmos.matrix = Matrix4x4.TRS(
+                mCamera.transform.position,
+                mCamera.transform.rotation,
+                Vector3.one
+            );
+
+            if (mCamera.orthographic)
+            {
+                float spread = mCamera.farClipPlane - mCamera.nearClipPlane;
+                float center = (mCamera.farClipPlane + mCamera.nearClipPlane) * 0.5f;
+                Gizmos.DrawWireCube(
+                    new Vector3(0, 0, center),
+                    new Vector3(
+                        mCamera.orthographicSize * 2 * mCamera.aspect,
+                        mCamera.orthographicSize * 2,
+                        spread
+                    )
+                );
+            }
+            else
+            {
+                Gizmos.DrawFrustum(
+                    Vector3.zero,
+                    mCamera.fieldOfView,
+                    mCamera.farClipPlane,
+                    mCamera.nearClipPlane,
+                    mCamera.aspect
+                );
+            }
+
+            Gizmos.matrix = temp;
         }
 
         private void OnEntityGenerate(EntityGenerateEvent context)

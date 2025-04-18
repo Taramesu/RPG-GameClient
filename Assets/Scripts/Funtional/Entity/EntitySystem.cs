@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using QFramework;
 using System;
 using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RpgGame
@@ -58,6 +59,16 @@ namespace RpgGame
             var oModel = this.GetModel<ObjModel>();
             oModel.TryAddData(data);
 
+            //GameObject go = null;
+            //mResLoader.Add2Load<GameObject>(data.name, (b, res) =>
+            //{
+            //    var prefab = res.Asset.As<GameObject>();
+            //    go = Pool.Instance.CreateObject(data.name, prefab, transformData.position, transformData.rotation);
+            //    go.GetComponent<ObjMonoController>().SetsUid(data.sUid);
+            //});
+
+            //mResLoader.LoadAsync();
+
             var prefab = mResLoader.LoadSync<GameObject>(data.name);
             var go = Pool.Instance.CreateObject(data.name, prefab, transformData.position, transformData.rotation);
             go.GetComponent<ObjMonoController>().SetsUid(data.sUid);
@@ -73,7 +84,9 @@ namespace RpgGame
         public async void CollectEntity(GameObject go, int delay = 0)
         {
             await UniTask.Delay(delay);
-            var sUid = go.GetComponent<ObjMonoController>().GetsUid();
+            var controller = go.GetComponent<ObjMonoController>();
+            var sUid = controller.GetsUid();
+            //var sUid = go.GetComponent<ObjMonoController>().GetsUid();
             this.GetModel<ObjModel>().RemoveData(sUid);
             this.GetModel<EntityModel>().RemoveData(sUid);
             Pool.Instance.CollectObject(go);

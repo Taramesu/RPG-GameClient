@@ -1,3 +1,4 @@
+using QFramework;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,6 +67,7 @@ namespace RpgGame
             else //物体归属于多个子节点，将物体加入自身节点
             {
                 objList.Add(obj);
+                childList = null;
             }
         }
 
@@ -224,6 +226,14 @@ namespace RpgGame
             // 检查是否可以将 obj 分配到子节点中
             bool bChild = false;
             bool hasNode = false;
+            bool hasChild = true;
+
+            if(depth < belongTree.maxChildCount && childList == null)
+            {
+                hasChild = false;
+                CreateChild();
+            }
+
             if (childList != null)
             {
                 for (int i = 0; i < childList.Length; ++i)
@@ -239,6 +249,11 @@ namespace RpgGame
                         bChild = true;
                     }
                 }
+            }
+
+            if (!hasChild) 
+            {
+                childList = null;
             }
 
             if (bChild)
@@ -300,6 +315,14 @@ namespace RpgGame
 
         public void DrawBound()
         {
+            if (childList != null)
+            {
+                for (int i = 0; i < childList.Length; ++i)
+                {
+                    childList[i].DrawBound();
+                }
+            }
+
             if (objList.Count != 0)
             {
                 Gizmos.color = Color.blue;
@@ -309,14 +332,6 @@ namespace RpgGame
             {
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireCube(bound.center, bound.size - Vector3.one * 0.1f);
-            }
-
-            if (childList != null)
-            {
-                for (int i = 0; i < childList.Length; ++i)
-                {
-                    childList[i].DrawBound();
-                }
             }
         }
     }

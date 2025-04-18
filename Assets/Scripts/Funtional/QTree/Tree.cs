@@ -70,7 +70,7 @@ namespace RpgGame
 
         public void TraverseAndPrint()
         {
-            root.TraverseAndPrint(0);
+            root.TraverseAndPrint();
         }
 
         public void TriggerMove(Camera camera)

@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace RpgGame
 {
-    public class ResourcesManager : MonoBehaviour, IController
+    public class ResourcesManager : MonoSingleton<ResourcesManager>, IController
     {
         public IArchitecture GetArchitecture()
         {
             return RpgGame.Interface;
         }
 
-        public static ResourcesManager Instance;
+        //public static ResourcesManager Instance;
 
         public float delTime = 2;
         private Dictionary<string, SceneObj> activeObjDic;//<suid,SceneObj>
@@ -93,7 +93,7 @@ namespace RpgGame
 
         private void Awake()
         {
-            Instance = this;
+            //Instance = this;
         }
 
         private void OnEnable()
