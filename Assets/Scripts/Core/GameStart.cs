@@ -20,7 +20,7 @@ namespace RpgGame
         {
             //playerÉú³É
             var es = this.GetSystem<EntitySystem>();
-            es.EntityGenerate(0, new TransformData { position = Vector3.zero, rotation = Quaternion.identity, scale = Vector3.one });
+            es.GenerateEntity(0, new TransformData { position = Vector3.zero, rotation = Quaternion.identity, scale = Vector3.one });
         }
     }
 }

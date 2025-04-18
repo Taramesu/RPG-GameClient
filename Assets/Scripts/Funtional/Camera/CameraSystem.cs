@@ -19,8 +19,8 @@ namespace RpgGame
         
         private async void InitCamera()
         {
-            await UniTask.WaitUntil(() => this.GetModel<EntityModel>().GetData(0, 0) != null);
-            followData = this.GetModel<EntityModel>().GetData(0, 0).transform;
+            await UniTask.WaitUntil(() => this.GetModel<EntityModel>().GetData(0) != null);
+            followData = this.GetModel<EntityModel>().GetData(0).transform;
             offset = new Vector3(0, 10, -10);
             smoothTime = 0.1f;
             velocity = Vector3.zero;

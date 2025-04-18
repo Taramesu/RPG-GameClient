@@ -124,31 +124,12 @@ namespace RpgGame
                 InActiveObjDic.Clear();
                 if (bDel)
                 {
-                    //Resources.UnloadUnusedAssets();//卸载未使用的资源
                     mResLoader.Recycle2Cache();
                 }
                 yield return new WaitForSeconds(delTime);
             }
         }
 
-        private void Update()
-        {
-            //if (Input.GetKeyDown(KeyCode.Q))
-            //{
-            //    Debug.Log("==================\nactive:");
-            //    foreach (var item in ActiveObjDic)
-            //    {
-            //        Debug.Log(item.Value.data.pos);
-            //    }
-            //    Debug.Log("inactive:");
-            //    foreach (var item in InActiveObjDic)
-            //    {
-            //        Debug.Log(item.Value.data.pos);
-            //    }
-            //    Debug.Log("===================");
-            //}
-
-        }
         public SceneObj CheckIsActive(string sUid)
         {
             SceneObj obj;
@@ -223,7 +204,6 @@ namespace RpgGame
                 }
                 else
                 {
-                    //resObj = Resources.Load<GameObject>(obj.name);
                     resObj = mResLoader.LoadSync<GameObject>(obj.name);
                     resObj.GetComponent<ObjMonoController>().SetsUid(obj.sUid);
                 }
@@ -240,8 +220,6 @@ namespace RpgGame
             }
             if (!MoveToActive(obj))
             {
-                //StartCoroutine(IELoad(obj));
-
                 SceneObj sceneObj = new SceneObj(obj);
                 sceneObj.status = SceneObjStatus.Loading;
                 ActiveObjDic.Add(obj.sUid, sceneObj);
@@ -269,28 +247,28 @@ namespace RpgGame
             }
         }
 
-        private IEnumerator IELoad(ObjData obj)
-        {
-            SceneObj sceneObj = new SceneObj(obj);
-            sceneObj.status = SceneObjStatus.Loading;
-            ActiveObjDic.Add(obj.sUid, sceneObj);
-            GameObject resObj = null;
-            ResourcesObj resourceObj;
-            if (ResourcesObjDic.TryGetValue(obj.name, out resourceObj))
-            {
-                resObj = resourceObj.obj;
-                resourceObj.CreateIns();
-            }
-            else
-            {
-                ResourceRequest request = Resources.LoadAsync<GameObject>(obj.name);
-                yield return request;
-                resObj = request.asset as GameObject;
-            }
+        //private IEnumerator IELoad(ObjData obj)
+        //{
+        //    SceneObj sceneObj = new SceneObj(obj);
+        //    sceneObj.status = SceneObjStatus.Loading;
+        //    ActiveObjDic.Add(obj.sUid, sceneObj);
+        //    GameObject resObj = null;
+        //    ResourcesObj resourceObj;
+        //    if (ResourcesObjDic.TryGetValue(obj.name, out resourceObj))
+        //    {
+        //        resObj = resourceObj.obj;
+        //        resourceObj.CreateIns();
+        //    }
+        //    else
+        //    {
+        //        ResourceRequest request = Resources.LoadAsync<GameObject>(obj.name);
+        //        yield return request;
+        //        resObj = request.asset as GameObject;
+        //    }
 
-            CreateObj(resObj, sceneObj);
-            sceneObj.status = SceneObjStatus.New;
-        }
+        //    CreateObj(resObj, sceneObj);
+        //    sceneObj.status = SceneObjStatus.New;
+        //}
 
 
         public void RefreshStatus()//刷新状态

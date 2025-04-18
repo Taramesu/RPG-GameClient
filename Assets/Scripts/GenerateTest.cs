@@ -36,12 +36,14 @@ namespace RpgGame
         private void OnEnable()
         {
             this.RegisterEvent<EntityGenerateEvent>(OnEntityGenerate);
+            this.RegisterEvent<EntityCollectEvent>(OnEntityCollect);
             this.RegisterEvent<ObjPositionChange>(OnObjPositionChange);
         }
 
         private void OnDisable()
         {
             this.UnRegisterEvent<EntityGenerateEvent>(OnEntityGenerate);
+            this.UnRegisterEvent<EntityCollectEvent>(OnEntityCollect);
             this.UnRegisterEvent<ObjPositionChange>(OnObjPositionChange);
         }
 
@@ -53,7 +55,8 @@ namespace RpgGame
                 int typeId = offset % 3;
                 var pos = new Vector3 (5, 0, offset++);
                 var data = new TransformData { position = pos, rotation = Quaternion.identity, scale = Vector3.one };
-                es.EntityGenerate(typeId,data);
+                var go = es.GenerateEntity(typeId,data);
+                es.CollectEntity(go, 2000);
             }
 
             if(keyboard.tKey.wasReleasedThisFrame)
@@ -85,12 +88,18 @@ namespace RpgGame
             tree.InsertObj(context.data);
         }
 
+        private void OnEntityCollect(EntityCollectEvent context)
+        {
+            tree.RemoveObj(context.data);
+        }
+
         private void OnObjPositionChange(ObjPositionChange context)
         {
             var model = this.GetModel<ObjModel>();
 
             var objData = model.GetData(context.sUid);
             tree.UpdateTree(objData);
+            //tree.TriggerMove(Camera.main);
         }
     }
 }

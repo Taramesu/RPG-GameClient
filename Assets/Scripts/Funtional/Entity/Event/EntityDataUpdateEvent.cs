@@ -10,8 +10,8 @@ namespace RpgGame
 
     public class EntityPositionUpdateEvent
     {
-        public int typeId;
-        public int id;
+        //public int typeId;
+        //public int id;
         public string sUid;
         public Vector3 position;
     }

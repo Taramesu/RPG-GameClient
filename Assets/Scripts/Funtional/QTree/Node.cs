@@ -99,10 +99,10 @@ namespace RpgGame
                     }
                 }
 
-                if (!found)
-                {
-                    Debug.LogWarning("Object not found in any child node.");
-                }
+                //if (!found)
+                //{
+                //    Debug.LogWarning("Object not found in any child node.");
+                //}
             }
 
             return false;
@@ -166,16 +166,16 @@ namespace RpgGame
 
         public void TriggerMove(Camera camera)
         {
+            if (depth == 0)
+            {
+                ResourcesManager.Instance.RefreshStatus();
+            }
+
             //刷新当前节点
             for (int i = 0; i < objList.Count; ++i)
             {
                 //创建所有该节点保存的物体
                 ResourcesManager.Instance.LoadAsync(objList[i]);
-            }
-
-            if (depth == 0)
-            {
-                ResourcesManager.Instance.RefreshStatus();
             }
 
             //刷新子节点

@@ -38,5 +38,11 @@ namespace RpgGame
                 return false;
             }
         }
+
+        public void RemoveData(string sUid) 
+        {
+            if (!datas.ContainsKey(sUid)) return;
+            datas.Remove(sUid);
+        }
     }
 }

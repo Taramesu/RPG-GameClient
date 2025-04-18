@@ -36,6 +36,11 @@ namespace RpgGame
             sUid = value;
         }
 
+        public string GetsUid() 
+        {
+            return sUid;
+        }
+
         private void PositionCheck()
         {
             if (transform.position != lastPosition)

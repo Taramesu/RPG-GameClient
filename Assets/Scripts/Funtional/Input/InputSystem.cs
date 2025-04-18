@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using QFramework;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,8 +9,11 @@ namespace RpgGame
     {
         private Vector3 dir = Vector3.zero;
         private int dirCount = 0;
-        protected override void OnInit()
+        private EntityData player;
+        protected async override void OnInit()
         {
+            await UniTask.WaitUntil(() => this.GetModel<EntityModel>().GetData(0) != null);
+            player = this.GetModel<EntityModel>().GetData(0);
             CommonMono.AddUpdateAction(OnUpdate);
             var manager = InputManager.Instance;
             InputManager.RegisterKeyEvent(Key.W, Forward);
@@ -46,7 +50,7 @@ namespace RpgGame
             {
                 if(dir.magnitude > 0)
                 {
-                    this.GetSystem<MoveSystem>().Move(0, 0, dir.normalized);
+                    this.GetSystem<MoveSystem>().Move(player.sUid, dir.normalized);
                 }
             }
         }
