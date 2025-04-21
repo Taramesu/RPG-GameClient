@@ -168,29 +168,31 @@ namespace RpgGame
 
         public void TriggerMove(Camera camera)
         {
-            if (depth == 0)
-            {
-                ResourcesManager.Instance.RefreshStatus();
-            }
 
-            //刷新当前节点
-            for (int i = 0; i < objList.Count; ++i)
-            {
-                //创建所有该节点保存的物体
-                ResourcesManager.Instance.LoadAsync(objList[i]);
-            }
 
-            //刷新子节点
-            if (childList != null)
-            {
-                for (int i = 0; i < childList.Length; ++i)
-                {
-                    if (childList[i].bound.CheckBoundIsInCamera(camera))
-                    {
-                        childList[i].TriggerMove(camera);
-                    }
-                }
-            }
+            ////刷新当前节点
+            //for (int i = 0; i < objList.Count; ++i)
+            //{
+            //    //创建所有该节点保存的物体
+            //    ResourcesManager.Instance.LoadAsync(objList[i]);
+            //}
+
+            //if (depth == 0)
+            //{
+            //    ResourcesManager.Instance.RefreshStatus();
+            //}
+
+            ////刷新子节点
+            //if (childList != null)
+            //{
+            //    for (int i = 0; i < childList.Length; ++i)
+            //    {
+            //        if (childList[i].bound.CheckBoundIsInCamera(camera))
+            //        {
+            //            childList[i].TriggerMove(camera);
+            //        }
+            //    }
+            //}
         }
 
         private void CreateChild()

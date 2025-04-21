@@ -16,7 +16,6 @@ namespace RpgGame
 
         private void Start()
         {
-            //
             this.RegisterEvent<EntityPositionUpdateEvent>(OnPositionChange);
             lastPosition = gameObject.transform.position;
         }

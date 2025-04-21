@@ -44,6 +44,11 @@ namespace RpgGame
             return go;
         }
 
+        public void CollectObject(string sUid, float delay)
+        {
+
+        }
+
         /// <summary>
         /// 回收对象
         /// </summary>

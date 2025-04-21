@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RpgGame.Skill
@@ -16,7 +17,7 @@ namespace RpgGame.Skill
         public float attackAngle;//攻击角度
         public string[] targetTags;//可作用目标tag
         [HideInInspector]
-        public Transform[] targets;//作用目标对象数组
+        public List<Transform> targets;//作用目标对象数组
         public string[] impactType;//技能影响类型
         public float attackRatio;//技能倍率
         public float durationTime;//持续时间

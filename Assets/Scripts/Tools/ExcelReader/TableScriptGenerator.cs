@@ -25,6 +25,7 @@ namespace XlsxHelper
                 string fieldName = columnNames[i];
                 string fieldType = GetCSharpType(columnTypes[i]); // 将Excel类型映射为C#类型
                 code.AppendLine($"\tpublic {fieldType} {fieldName};");
+                Debug.Log(fieldType+" "+fieldName);
             }
 
             // 生成静态列表
@@ -73,27 +74,68 @@ namespace XlsxHelper
                 for (int i = 0; i < columnNames.Length; i++)
                 {
                     var value = rowData[i];
-                    // 处理数字和布尔类型的空值
-                    if (columnTypes[i].ToLower() == "int" || columnTypes[i].ToLower() == "double" || columnTypes[i] == "float")
+
+                    switch(columnTypes[i])
                     {
-                        if (value == null)
-                        {
-                            value = 0; // 默认值
-                        }
+                        case "int":
+                            value = value == null ? 0 : value;
+                            code.AppendLine($"\t\t\t\t{columnNames[i]} = {value},");
+                            break;
+                        case "float":
+                            value = value == null ? 0 : value;
+                            code.AppendLine($"\t\t\t\t{columnNames[i]} = {value}f,");
+                            break;
+                        case "double":
+                            value = value == null ? 0 : value;
+                            code.AppendLine($"\t\t\t\t{columnNames[i]} = {value}f,");
+                            break;
+                        case "bool":
+                            value = value == null ? false : value;
+                            code.AppendLine($"\t\t\t\t{columnNames[i]} = {value},");
+                            break;
+                        case "string":
+                            code.AppendLine($"\t\t\t\t{columnNames[i]} = \"{value}\",");
+                            break;
+                        case "List<string>":
+                            string[] strings = value.ToString().Split(',');
+                            code.Append($"\t\t\t\t{columnNames[i]} = {{");
+                            for (int j = 0; j < strings.Length; j++)
+                            {
+                                if(j == strings.Length-1)
+                                {
+                                    code.Append($"\"{strings[j]}\"}},");
+                                }
+                                else
+                                code.Append($"\"{strings[j]}\",");
+                            }
+                            code.AppendLine();
+                            break;
+                        default:
+                            break;
                     }
-                    else if (columnTypes[i].ToLower() == "bool")
-                    {
-                        if (value == null)
-                        {
-                            value = false; // 默认值
-                        }
-                    }
-                    if (columnTypes[i].ToLower() == "string")
-                        code.AppendLine($"\t\t\t\t{columnNames[i]} = \"{value}\",");
-                    else if(columnTypes[i].ToLower() == "double" || columnTypes[i] == "float")
-                        code.AppendLine($"\t\t\t\t{columnNames[i]} = {value}f,");
-                    else
-                        code.AppendLine($"\t\t\t\t{columnNames[i]} = {value},");
+
+                    //// 处理数字和布尔类型的空值
+                    //if (columnTypes[i].ToLower() == "int" || columnTypes[i].ToLower() == "double" || columnTypes[i] == "float")
+                    //{
+                    //    if (value == null)
+                    //    {
+                    //        value = 0; // 默认值
+                    //    }
+                    //}
+                    //else if (columnTypes[i].ToLower() == "bool")
+                    //{
+                    //    if (value == null)
+                    //    {
+                    //        value = false; // 默认值
+                    //    }
+                    //}
+
+                    //if (columnTypes[i].ToLower() == "string")
+                    //    code.AppendLine($"\t\t\t\t{columnNames[i]} = \"{value}\",");
+                    //else if(columnTypes[i].ToLower() == "double" || columnTypes[i] == "float")
+                    //    code.AppendLine($"\t\t\t\t{columnNames[i]} = {value}f,");
+                    //else
+                    //    code.AppendLine($"\t\t\t\t{columnNames[i]} = {value},");
                 }
                 code.AppendLine("\t\t\t},");
             }
@@ -134,7 +176,7 @@ namespace XlsxHelper
         private static string GetCSharpType(string excelType)
         {
             // 将Excel类型映射为C#类型
-            switch (excelType.ToLower())
+            switch (excelType)
             {
                 case "int":
                     return "int";
@@ -146,6 +188,8 @@ namespace XlsxHelper
                     return "bool";
                 case "float":
                     return "float";
+                case "List<string>":
+                    return "List<string>";
                 // 可以扩展更多类型映射
                 default:
                     return "string"; // 默认类型
