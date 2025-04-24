@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RpgGame.Skill;
 public class PlayerSkillTable
 {
 	public int Id;
@@ -15,12 +16,12 @@ public class PlayerSkillTable
 	public string PrefabName;
 	public string AnimationName;
 	public string HitFxName;
-	public string SkillAttackType;
-	public string SelectorType;
+	public SkillAttackType SkillAttackType;
+	public SelectorType SelectorType;
 	public static List<PlayerSkillTable> Configs = new List<PlayerSkillTable>();
 
 	public PlayerSkillTable() { }
-	public PlayerSkillTable(int Id, string Name, string Description, int Cd, int CostEnergy, float AttackDistrance, float AttackAngle, List<string> ImpactType, float AttackRatio, float DurationTime, float AttackInterval, string PrefabName, string AnimationName, string HitFxName, string SkillAttackType, string SelectorType)
+	public PlayerSkillTable(int Id, string Name, string Description, int Cd, int CostEnergy, float AttackDistrance, float AttackAngle, List<string> ImpactType, float AttackRatio, float DurationTime, float AttackInterval, string PrefabName, string AnimationName, string HitFxName, SkillAttackType SkillAttackType, SelectorType SelectorType)
 	{
 		this.Id = Id;
 		this.Name = Name;
@@ -78,13 +79,15 @@ public class PlayerSkillTable
 				CostEnergy = 0,
 				AttackDistrance = 2f,
 				AttackAngle = 130f,
-				ImpactType = {"damage","speedDown"},
+				ImpactType = {"Damage","SpeedDown"},
 				AttackRatio = 0.5f,
 				DurationTime = 0.5f,
 				AttackInterval = 0.5f,
 				PrefabName = " normalAttack1",
 				AnimationName = "normalAttack1",
 				HitFxName = "normalAttack1",
+				SkillAttackType = SkillAttackType.Single,
+				SelectorType = SelectorType.Sector,
 			},
 		};
 	}

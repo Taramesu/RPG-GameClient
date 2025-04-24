@@ -13,8 +13,8 @@ namespace RpgGame.Skill
 
         public static List<IImpactEffect> CreateImpact(SkillData data)
         {
-            var impacts = new List<IImpactEffect>(data.impactType.Length);
-            for(int i = 0; i < data.impactType.Length; i++) 
+            var impacts = new List<IImpactEffect>(data.impactType.Count);
+            for(int i = 0; i < data.impactType.Count; i++) 
             {
                 var classNameImpact = string.Format("RpgGame.Skill.{0}Impact", data.impactType[i]);
                 impacts[i] = CreateObject<IImpactEffect>(classNameImpact);

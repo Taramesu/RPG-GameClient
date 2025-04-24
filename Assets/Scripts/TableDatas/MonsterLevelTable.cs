@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RpgGame.Skill;
 public class MonsterLevelTable
 {
 	public int Id;

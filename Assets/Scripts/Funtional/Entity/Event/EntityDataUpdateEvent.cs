@@ -10,9 +10,13 @@ namespace RpgGame
 
     public class EntityPositionUpdateEvent
     {
-        //public int typeId;
-        //public int id;
         public string sUid;
         public Vector3 position;
+    }
+
+    public class EntityRotationUpdateEvent
+    {
+        public string sUid;
+        public Quaternion rotation;
     }
 }

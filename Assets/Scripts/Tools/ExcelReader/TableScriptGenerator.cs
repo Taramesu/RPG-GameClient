@@ -1,3 +1,4 @@
+using RpgGame.Skill;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,6 +15,7 @@ namespace XlsxHelper
 
             //引入命名空间
             code.AppendLine("using System.Collections.Generic;");
+            code.AppendLine("using RpgGame.Skill;");
 
             // 生成类的头部
             code.AppendLine($"public class {className}");
@@ -110,6 +112,14 @@ namespace XlsxHelper
                             }
                             code.AppendLine();
                             break;
+                        case "skillAttackType":
+                            var skillAttackType = char.ToUpper(columnNames[i][0]) + columnNames[i].Substring(1);
+                            code.AppendLine($"\t\t\t\t{skillAttackType} = {skillAttackType}.{value},");
+                            break;
+                        case "selectorType":
+                            var selectorType = char.ToUpper(columnNames[i][0]) + columnNames[i].Substring(1);
+                            code.AppendLine($"\t\t\t\t{selectorType} = {selectorType}.{value},");
+                            break;
                         default:
                             break;
                     }
@@ -190,6 +200,10 @@ namespace XlsxHelper
                     return "float";
                 case "List<string>":
                     return "List<string>";
+                case "skillAttackType":
+                    return "SkillAttackType";
+                case "selectorType":
+                    return "SelectorType";
                 // 可以扩展更多类型映射
                 default:
                     return "string"; // 默认类型

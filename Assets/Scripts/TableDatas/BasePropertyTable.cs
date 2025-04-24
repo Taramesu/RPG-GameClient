@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RpgGame.Skill;
 public class BasePropertyTable
 {
 	public int Id;

@@ -1,5 +1,6 @@
 using QFramework;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UnityEngine;
 
@@ -70,6 +71,18 @@ namespace RpgGame
             {
                 datas[sUid].transform.position += value;
                 this.SendEvent(new EntityPositionUpdateEvent() { sUid = sUid, position = datas[sUid].transform.position });
+                return true;
+            }
+            Debug.Log($"Can not find data with sUid:{sUid}");
+            return false;
+        }
+
+        public bool UpdateRotation(string sUid, Quaternion angle)
+        {
+            if(datas.ContainsKey(sUid)) 
+            {
+                datas[sUid].transform.rotation = angle;
+                this.SendEvent(new EntityRotationUpdateEvent() { sUid = sUid, rotation = angle });
                 return true;
             }
             Debug.Log($"Can not find data with sUid:{sUid}");

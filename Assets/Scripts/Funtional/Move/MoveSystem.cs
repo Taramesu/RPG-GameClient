@@ -7,19 +7,8 @@ namespace RpgGame
     {
         protected override void OnInit()
         {
-            //this.RegisterEvent<ControlEvent>(OnMoveEvent);
             var manager = InputManager.Instance;
         }
-
-        //private void OnMoveEvent(ControlEvent e)
-        //{
-        //    if (e == null) return;
-
-        //    var eModel = this.GetModel<EntityModel>();
-        //    if (eModel == null) return;
-        //    var value = e.dir * eModel.GetData(e.typeId,e.id).property.moveSpeed;
-        //    eModel.UpdatePosition(e.typeId, e.id, value);
-        //}
 
         public void Move(string sUid, Vector3 dir)
         {
@@ -27,11 +16,12 @@ namespace RpgGame
             if (eModel == null) return;
             var value = dir * eModel.GetData(sUid).property.moveSpeed * Time.deltaTime;
             eModel.UpdatePosition(sUid, value);
+            eModel.UpdateRotation(sUid, Quaternion.LookRotation(dir));
         }
 
         protected override void OnDeinit()
         {
-            //this.UnRegisterEvent<ControlEvent>(OnMoveEvent);
+
         }
     }
 }

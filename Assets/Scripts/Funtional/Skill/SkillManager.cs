@@ -1,11 +1,12 @@
 using QFramework;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 namespace RpgGame.Skill
 {
-    public class SkillManager : MonoBehaviour
+    public class SkillManager : MonoBehaviour, ICanGetModel
     {
         public List<SkillData> skills;
         private ResLoader mResLoader;
@@ -13,6 +14,30 @@ namespace RpgGame.Skill
         private void Awake()
         {
             mResLoader = ResLoader.Allocate();
+            skills = new();
+            foreach (var config in PlayerSkillTable.Configs)
+            {
+                var data = new SkillData
+                {
+                    id = config.Id,
+                    name = config.Name,
+                    description = config.Description,
+                    cd = config.Cd,
+                    costEnergy = config.CostEnergy,
+                    attackDistance = config.AttackDistrance,
+                    attackAngle = config.AttackAngle,
+                    impactType = config.ImpactType,
+                    attackRatio = config.AttackRatio,
+                    durationTime = config.DurationTime,
+                    attackInterval = config.AttackInterval,
+                    prefabName = config.PrefabName,
+                    animationName = config.AnimationName,
+                    hitFxName = config.HitFxName,
+                    attackType = config.SkillAttackType,
+                    selectorType = config.SelectorType
+                };
+                skills.Add(data);
+            }
         }
 
         private void InitSkill(SkillData data)
@@ -34,9 +59,13 @@ namespace RpgGame.Skill
             SkillData skillData = new();
             skillData = skills.Find(x => x.id == id);
 
+            var model = this.GetModel<EntityModel>();
+            var sUid = skillData.owner.GetComponent<ObjMonoController>().GetsUid();
+            var entityData = model.GetData(sUid);
+
             if(skillData != null
                 && skillData.cdRemain <= 0
-                /*&& skillData.costEnergy <= skillData.owner.GetComponent<>*/)
+                && skillData.costEnergy <= entityData.property.Mp)
             {
                 return skillData;
             }
@@ -46,6 +75,10 @@ namespace RpgGame.Skill
             }
         }
 
+        /// <summary>
+        /// 生成技能
+        /// </summary>
+        /// <param name="skillData"></param>
         public void GenerateSkill(SkillData skillData)
         {
             var skillGo = Pool.Instance.CreateObject(skillData.prefabName, skillData.skillPrefab, transform.position, transform.rotation);
@@ -70,6 +103,11 @@ namespace RpgGame.Skill
         {
             mResLoader.Recycle2Cache();
             mResLoader=null;
+        }
+
+        public IArchitecture GetArchitecture()
+        {
+            return RpgGame.Interface;
         }
     }
 }
