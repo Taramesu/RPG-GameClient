@@ -8,8 +8,6 @@ namespace RpgGame
         [SerializeField]
         private string sUid;
 
-        private Animator animator;
-
         private Vector3 lastPosition;
         public IArchitecture GetArchitecture()
         {
@@ -18,9 +16,8 @@ namespace RpgGame
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
             this.RegisterEvent<EntityPositionUpdateEvent>(OnPositionChange);
-            this.RegisterEvent<EntityRotationUpdateEvent>(OnRotationChange);
+            //this.RegisterEvent<EntityRotationUpdateEvent>(OnRotationChange);
             lastPosition = gameObject.transform.position;
         }
 
@@ -32,7 +29,7 @@ namespace RpgGame
         private void OnDestroy()
         {
             this.UnRegisterEvent<EntityPositionUpdateEvent>(OnPositionChange);
-            this.UnRegisterEvent<EntityRotationUpdateEvent>(OnRotationChange);
+            //this.UnRegisterEvent<EntityRotationUpdateEvent>(OnRotationChange);
         }
 
         public void SetsUid(string value)
@@ -51,11 +48,6 @@ namespace RpgGame
             {
                 lastPosition = transform.position;
                 this.SendEvent(new ObjPositionChange() { sUid = sUid });
-                animator.SetBool("Running", true);
-            }
-            else
-            {
-                animator.SetBool("Running", false);
             }
         }
 
@@ -65,10 +57,10 @@ namespace RpgGame
             transform.position = context.position;
         }
 
-        private void OnRotationChange(EntityRotationUpdateEvent context)
-        {
-            if(context.sUid == sUid)
-                transform.rotation = context.rotation;
-        }
+    //    private void OnRotationChange(EntityRotationUpdateEvent context)
+    //    {
+    //        if(context.sUid == sUid)
+    //            transform.rotation = context.rotation;
+    //    }
     }
 }

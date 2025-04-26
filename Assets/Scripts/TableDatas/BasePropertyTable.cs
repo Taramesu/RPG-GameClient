@@ -58,7 +58,7 @@ public class BasePropertyTable
 				BaseDEF = 5f,
 				BaseCrit = 0.05f,
 				BaseCritDMG = 1.5f,
-				BaseMoveSpeed = 5f,
+				BaseMoveSpeed = 7f,
 				BaseAttackSpeed = 0.5f,
 			},
 			new BasePropertyTable

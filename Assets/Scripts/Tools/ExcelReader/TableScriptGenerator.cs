@@ -100,7 +100,7 @@ namespace XlsxHelper
                             break;
                         case "List<string>":
                             string[] strings = value.ToString().Split(',');
-                            code.Append($"\t\t\t\t{columnNames[i]} = {{");
+                            code.Append($"\t\t\t\t{columnNames[i]} = new List<string> {{");
                             for (int j = 0; j < strings.Length; j++)
                             {
                                 if(j == strings.Length-1)

@@ -31,7 +31,7 @@ public class EntityTable
 			new EntityTable
 			{
 				Id = 0,
-				Name = "player",
+				Name = "Player",
 			},
 			new EntityTable
 			{

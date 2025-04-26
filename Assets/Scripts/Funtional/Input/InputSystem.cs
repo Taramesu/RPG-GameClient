@@ -24,6 +24,7 @@ namespace RpgGame
             InputManager.RegisterKeyEvent(Key.S, CancelBackward, 0, KeyEventType.KeyUp);
             InputManager.RegisterKeyEvent(Key.A, CancelLeft, 0, KeyEventType.KeyUp);
             InputManager.RegisterKeyEvent(Key.D, CancelRight, 0, KeyEventType.KeyUp);
+            InputManager.RegisterKeyEvent(Key.J, Attack);
         }
 
         protected override void OnDeinit()
@@ -37,6 +38,7 @@ namespace RpgGame
             InputManager.UnRegisterKeyEvent(Key.S, CancelBackward);
             InputManager.UnRegisterKeyEvent(Key.A, CancelLeft);
             InputManager.UnRegisterKeyEvent(Key.D, CancelRight);
+            InputManager.UnRegisterKeyEvent(Key.J, Attack);
         }
 
         private void OnUpdate()
@@ -53,6 +55,11 @@ namespace RpgGame
                     this.GetSystem<MoveSystem>().Move(player.sUid, dir.normalized);
                 }
             }
+        }
+
+        private void Attack()
+        {
+            this.SendEvent(new AttackEvent() { skillId = 1001 });
         }
 
         private void Forward()

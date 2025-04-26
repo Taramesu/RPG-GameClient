@@ -16,7 +16,7 @@ namespace RpgGame
             if (eModel == null) return;
             var value = dir * eModel.GetData(sUid).property.moveSpeed * Time.deltaTime;
             eModel.UpdatePosition(sUid, value);
-            eModel.UpdateRotation(sUid, Quaternion.LookRotation(dir));
+            //eModel.UpdateRotation(sUid, Quaternion.LookRotation(dir));
         }
 
         protected override void OnDeinit()

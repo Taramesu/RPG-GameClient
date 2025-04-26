@@ -1,7 +1,7 @@
+using Cysharp.Threading.Tasks;
 using QFramework;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 namespace RpgGame.Skill
@@ -37,6 +37,11 @@ namespace RpgGame.Skill
                     selectorType = config.SelectorType
                 };
                 skills.Add(data);
+            }
+
+            foreach (var skill in skills)
+            {
+                //InitSkill(skill);
             }
         }
 
