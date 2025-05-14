@@ -6,8 +6,12 @@ namespace RpgGame.Skill
 {
     public class DamageImpact : IImpactEffect, ICanGetModel
     {
+        //技能数据
         private SkillData data;
+        //实体数据管理模块
         private EntityModel entityModel;
+
+        //效果执行逻辑
         public void Execute(SkillDeployer deployer)
         {
             data = deployer.SkillData;
@@ -35,6 +39,10 @@ namespace RpgGame.Skill
             for(int i = 0; i < data.targets.Count; i++) 
             {
                 //伤害方法
+                var target = entityModel.GetData(data.targets[i].sUid);
+                if (target.typeId == 0) continue;
+                target.property.Hp -= value;
+                Debug.Log($"target : {target.name} remain HP : {target.property.Hp}");
             }
         }
 

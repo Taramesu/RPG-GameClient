@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using QFramework;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,7 +25,7 @@ namespace RpgGame
             InputManager.RegisterKeyEvent(Key.S, CancelBackward, 0, KeyEventType.KeyUp);
             InputManager.RegisterKeyEvent(Key.A, CancelLeft, 0, KeyEventType.KeyUp);
             InputManager.RegisterKeyEvent(Key.D, CancelRight, 0, KeyEventType.KeyUp);
-            InputManager.RegisterKeyEvent(Key.J, Attack);
+            //InputManager.RegisterKeyEvent(Key.J, Attack);
         }
 
         protected override void OnDeinit()
@@ -38,12 +39,13 @@ namespace RpgGame
             InputManager.UnRegisterKeyEvent(Key.S, CancelBackward);
             InputManager.UnRegisterKeyEvent(Key.A, CancelLeft);
             InputManager.UnRegisterKeyEvent(Key.D, CancelRight);
-            InputManager.UnRegisterKeyEvent(Key.J, Attack);
+            //InputManager.UnRegisterKeyEvent(Key.J, Attack);
         }
 
         private void OnUpdate()
         {
             Move();
+            Attack();
         }
 
         private void Move()
@@ -59,7 +61,17 @@ namespace RpgGame
 
         private void Attack()
         {
-            this.SendEvent(new AttackEvent() { skillId = 1001 });
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                Vector2 mouseScreenPosition = Mouse.current.position.ReadValue();
+                Vector2 playerScreenPostion = Camera.main.WorldToScreenPoint(this.GetModel<EntityModel>().GetData(0).transform.position);
+
+                Vector2 dir = mouseScreenPosition - playerScreenPostion;
+                Vector3 skillDir = new(dir.x, 0, dir.y);
+                Quaternion skillRotation = Quaternion.LookRotation(skillDir);
+                //Debug.Log($"skillRotation:{skillRotation}");
+                this.SendEvent(new AttackEvent() { skillId = 1001, skillRotation = skillRotation });
+            }
         }
 
         private void Forward()

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RpgGame.Skill
 {
-    public class SkillManager : MonoBehaviour, ICanGetModel
+    public class SkillManager : MonoBehaviour, IController
     {
         public List<SkillData> skills;
         private ResLoader mResLoader;
@@ -41,8 +41,10 @@ namespace RpgGame.Skill
 
             foreach (var skill in skills)
             {
-                //InitSkill(skill);
+                InitSkill(skill);
             }
+
+            this.RegisterEvent<AttackEvent>(OnAttack);
         }
 
         private void InitSkill(SkillData data)
@@ -86,7 +88,8 @@ namespace RpgGame.Skill
         /// <param name="skillData"></param>
         public void GenerateSkill(SkillData skillData)
         {
-            var skillGo = Pool.Instance.CreateObject(skillData.prefabName, skillData.skillPrefab, transform.position, transform.rotation);
+            //var skillGo = Pool.Instance.CreateObject(skillData.prefabName, skillData.skillPrefab, transform.position, transform.rotation);
+            var skillGo = Pool.Instance.CreateObject(skillData.prefabName, skillData.skillPrefab, transform.position, skillData.direction);
             var deployer = skillGo.GetComponent<SkillDeployer>();
             deployer.SkillData = skillData;
             deployer.DeploySkill();
@@ -106,6 +109,7 @@ namespace RpgGame.Skill
 
         private void OnDestroy()
         {
+            this.UnRegisterEvent<AttackEvent>(OnAttack);
             mResLoader.Recycle2Cache();
             mResLoader=null;
         }
@@ -113,6 +117,16 @@ namespace RpgGame.Skill
         public IArchitecture GetArchitecture()
         {
             return RpgGame.Interface;
+        }
+
+        private void OnAttack(AttackEvent context)
+        {
+            var data = PrepareSkill(context.skillId);
+            if (data != null) 
+            {
+                data.direction = context.skillRotation;
+                GenerateSkill(data);
+            }
         }
     }
 }

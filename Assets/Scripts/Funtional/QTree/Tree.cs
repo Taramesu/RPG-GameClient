@@ -33,6 +33,11 @@ namespace RpgGame
             return root.RemoveObj(obj);
         }
 
+        /// <summary>
+        /// 查询指定包围盒的对象数据
+        /// </summary>
+        /// <param name="bound"></param>
+        /// <returns></returns>
         public List<ObjData> QueryBounds(Bounds bound)
         {
             return root.QueryBounds(bound);
@@ -58,6 +63,10 @@ namespace RpgGame
             return root.FindNode(obj);
         }
 
+        /// <summary>
+        /// 更新四叉树
+        /// </summary>
+        /// <param name="obj"></param>
         public void UpdateTree(ObjData obj) 
         {
             if(CheckObjPosition(obj))

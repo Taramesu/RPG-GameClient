@@ -17,11 +17,12 @@ namespace RpgGame.Skill
         public float attackAngle;//攻击角度
         public string[] targetTags;//可作用目标tag
         [HideInInspector]
-        public List<Transform> targets;//作用目标对象数组
+        public List<ObjData> targets;//作用目标对象数组
         public List<string> impactType;//技能影响类型
         public float attackRatio;//技能倍率
         public float durationTime;//持续时间
         public float attackInterval;//攻击间隔
+        public Quaternion direction;
         [HideInInspector]
         public GameObject owner;//技能所属角色
         public string prefabName;//技能预制体名称

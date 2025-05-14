@@ -17,7 +17,15 @@ namespace RpgGame
         KeyHold
     }
 
-    public class InputManager : MonoSingleton<InputManager>
+    public enum MouseEventType
+    {
+        ClickDown,
+        ClickUp,
+        LongPress,
+        ClickHold
+    }
+
+    public partial class InputManager : MonoSingleton<InputManager>
     {
         private static readonly Dictionary<Key, Dictionary<KeyEventType, SortedList<int, List<Action>>>> keyEvents = new();
         private static readonly Dictionary<Key, Dictionary<KeyEventType, int>> currentPriorityIndex = new();
@@ -178,5 +186,14 @@ namespace RpgGame
                 return false;
             }
         }
+    }
+
+    public partial class InputManager
+    {
+        private static readonly Dictionary<Key, Dictionary<MouseEventType, SortedList<int, List<Action>>>> ClickEvents = new();
+        private static readonly Dictionary<Key, Dictionary<MouseEventType, int>> currentPriorityIndexClick = new();
+        private static readonly HashSet<Key> specialClicks = new();
+        private static readonly Dictionary<Key, float> ClickPressTime = new();
+        private static readonly Dictionary<Key, bool> isLongPressTriggeredClick = new();
     }
 }

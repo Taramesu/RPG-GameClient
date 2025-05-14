@@ -100,11 +100,6 @@ namespace RpgGame
                         }
                     }
                 }
-
-                //if (!found)
-                //{
-                //    Debug.LogWarning("Object not found in any child node.");
-                //}
             }
 
             return false;

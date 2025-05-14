@@ -1,4 +1,3 @@
-using RpgGame.Skill;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -123,29 +122,6 @@ namespace XlsxHelper
                         default:
                             break;
                     }
-
-                    //// 处理数字和布尔类型的空值
-                    //if (columnTypes[i].ToLower() == "int" || columnTypes[i].ToLower() == "double" || columnTypes[i] == "float")
-                    //{
-                    //    if (value == null)
-                    //    {
-                    //        value = 0; // 默认值
-                    //    }
-                    //}
-                    //else if (columnTypes[i].ToLower() == "bool")
-                    //{
-                    //    if (value == null)
-                    //    {
-                    //        value = false; // 默认值
-                    //    }
-                    //}
-
-                    //if (columnTypes[i].ToLower() == "string")
-                    //    code.AppendLine($"\t\t\t\t{columnNames[i]} = \"{value}\",");
-                    //else if(columnTypes[i].ToLower() == "double" || columnTypes[i] == "float")
-                    //    code.AppendLine($"\t\t\t\t{columnNames[i]} = {value}f,");
-                    //else
-                    //    code.AppendLine($"\t\t\t\t{columnNames[i]} = {value},");
                 }
                 code.AppendLine("\t\t\t},");
             }

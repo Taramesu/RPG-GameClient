@@ -9,12 +9,12 @@ namespace RpgGame.Skill
     public class SkillController : MonoBehaviour
     {
         private SkillManager skillManager;
-        private Animator animator;
+        //private Animator animator;
 
         private void Start()
         {
             skillManager = GetComponent<SkillManager>();
-            animator = GetComponentInChildren<Animator>();
+            //animator = GetComponentInChildren<Animator>();
             //GetComponentInChildren<AnimationEvent>().
         }
 
@@ -24,7 +24,7 @@ namespace RpgGame.Skill
             SkillData skill = skillManager.PrepareSkill(skillId);
             if (skill == null) return;
             //播放动画
-            animator.SetBool(skill.animationName, true);
+            //animator.SetBool(skill.animationName, true);
             //生成技能
             skillManager.GenerateSkill(skill);
         }

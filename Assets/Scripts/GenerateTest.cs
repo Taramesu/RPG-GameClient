@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace RpgGame
 {
-    public class GenerateTest : MonoBehaviour, IController
+    public class GenerateTest : MonoSingleton<GenerateTest>, IController
     {
         IArchitecture IBelongToArchitecture.GetArchitecture()
         {
@@ -16,8 +16,8 @@ namespace RpgGame
         public List<ObjData> objList = new List<ObjData>();
         public Bounds mainBound;
         public bool isDebug;
+        public Tree tree;
 
-        private Tree tree;
         private bool bInitEnd = false;
         private Keyboard keyboard;
 
@@ -49,14 +49,14 @@ namespace RpgGame
 
         private void Update()
         {
-            if(keyboard.jKey.wasPressedThisFrame)
+            if(keyboard.gKey.wasPressedThisFrame)
             {
                 var es = this.GetSystem<EntitySystem>();
                 int typeId = offset % 3 == 0 ? 1 : 2;
                 var pos = new Vector3 (5, 0, offset++);
                 var data = new TransformData { position = pos, rotation = Quaternion.identity, scale = Vector3.one };
                 var go = es.GenerateEntity(typeId,data);
-                es.CollectEntity(go, 2000);
+                //es.CollectEntity(go, 2000);
             }
 
             if(keyboard.tKey.wasReleasedThisFrame)

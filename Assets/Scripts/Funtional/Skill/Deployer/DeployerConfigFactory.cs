@@ -17,7 +17,7 @@ namespace RpgGame.Skill
             for(int i = 0; i < data.impactType.Count; i++) 
             {
                 var classNameImpact = string.Format("RpgGame.Skill.{0}Impact", data.impactType[i]);
-                impacts[i] = CreateObject<IImpactEffect>(classNameImpact);
+                impacts.Add(CreateObject<IImpactEffect>(classNameImpact));
             }
             return impacts;
         }

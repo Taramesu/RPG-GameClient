@@ -21,7 +21,7 @@ namespace RpgGame
         {
             await UniTask.WaitUntil(() => this.GetModel<EntityModel>().GetData(0) != null);
             followData = this.GetModel<EntityModel>().GetData(0).transform;
-            offset = new Vector3(0, 5, -5);
+            offset = new Vector3(0, 2, -2);
             smoothTime = 0.1f;
             velocity = Vector3.zero;
             mCamera = Camera.main;
