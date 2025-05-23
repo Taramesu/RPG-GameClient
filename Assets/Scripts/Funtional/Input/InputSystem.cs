@@ -70,7 +70,19 @@ namespace RpgGame
                 Vector3 skillDir = new(dir.x, 0, dir.y);
                 Quaternion skillRotation = Quaternion.LookRotation(skillDir);
                 //Debug.Log($"skillRotation:{skillRotation}");
-                this.SendEvent(new AttackEvent() { skillId = 1001, skillRotation = skillRotation });
+                this.SendEvent(new AttackEvent() { sUid = player.sUid, skillId = 1001, skillRotation = skillRotation });
+            }
+
+            if(Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                Vector2 mouseScreenPosition = Mouse.current.position.ReadValue();
+                Vector2 playerScreenPostion = Camera.main.WorldToScreenPoint(this.GetModel<EntityModel>().GetData(0).transform.position);
+
+                Vector2 dir = mouseScreenPosition - playerScreenPostion;
+                Vector3 skillDir = new(dir.x, 0, dir.y);
+                Quaternion skillRotation = Quaternion.LookRotation(skillDir);
+                //Debug.Log($"skillRotation:{skillRotation}");
+                this.SendEvent(new AttackEvent() { sUid = player.sUid, skillId = 1002, skillRotation = skillRotation });
             }
         }
 

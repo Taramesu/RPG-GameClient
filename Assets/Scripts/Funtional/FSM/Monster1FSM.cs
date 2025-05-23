@@ -1,13 +1,18 @@
 using QFramework;
+using RpgGame.Skill;
+using System.Collections;
 using UnityEngine;
 
 namespace RpgGame
 {
-    public class Monster1FSM : MonoBehaviour, IController
+    public class Monster1FSM : MonoBehaviour, IController, ICanSendEvent
     {
         private string sUid;
         private Vector3 lastPosition;
         private Animator animator;
+        private ObjData target;
+        private Vector3 generatePos;
+        private SkillManager skillManager;
 
         public string SUid
         {
@@ -30,6 +35,28 @@ namespace RpgGame
         {
             animator = GetComponent<Animator>();
             lastPosition = transform.position;
+            generatePos = transform.position;
+            skillManager = GetComponent<SkillManager>();
+
+            fsm.AddState(States.Idle, new Idle(fsm, this));
+            fsm.AddState(States.Attack, new Attack(fsm, this));
+            fsm.AddState(States.Chase, new Chase(fsm, this));
+            fsm.AddState(States.Patrol, new Patrol(fsm, this));
+            fsm.AddState(States.Back, new Back(fsm, this));
+
+            fsm.StartState(States.Patrol);
+            sUid = GetComponent<ObjMonoController>().GetsUid();
+        }
+        private void Update()
+        {
+            fsm.Update();
+            MoveAninmationControll();
+            lastPosition = transform.position;
+        }
+
+        private void OnDestroy()
+        {
+            fsm.Clear();
         }
 
         public IArchitecture GetArchitecture() => RpgGame.Interface;
@@ -67,7 +94,17 @@ namespace RpgGame
 
             protected override void OnUpdate()
             {
+                //π•ª˜
+                var attackDir = mTarget.target.transform.position - mTarget.transform.position;
+                Quaternion skillRotation = Quaternion.LookRotation(attackDir);
+                mTarget.SendEvent(new AttackEvent() { sUid = mTarget.SUid, skillId = 1001, skillRotation = skillRotation });
 
+                //ºÏ≤‚ «∑Ò¥¶”⁄π•ª˜∑∂Œß
+                var distance = Vector3.Distance(mTarget.target.transform.position, mTarget.transform.position);
+                if (distance > 1.5)
+                {
+                    mFSM.ChangeState(States.Back);
+                }
             }
 
             protected override void OnExit()
@@ -83,11 +120,27 @@ namespace RpgGame
 
             protected override void OnEnter()
             {
+                Debug.Log("enter chase");
             }
 
             protected override void OnUpdate()
             {
+                //“∆∂Ø
+                var dir = Vector3.Normalize(mTarget.target.transform.position - mTarget.transform.position);
+                mTarget.GetSystem<MoveSystem>().Move(mTarget.sUid, dir);
 
+                //ºÏ≤‚ «∑ÒµΩ¥Ôπ•ª˜æ‡¿Î
+                var distance = Vector3.Distance(mTarget.target.transform.position, mTarget.transform.position);
+                if(distance <= 1.5)
+                {
+                    mFSM.ChangeState(States.Attack);
+                }
+
+                //ºÏ≤‚ «∑Ò¿Îø™◊∑ª˜∑∂Œß
+                if (distance > 3)
+                {
+                    mFSM.ChangeState(States.Back);
+                }
             }
 
             protected override void OnExit()
@@ -97,21 +150,59 @@ namespace RpgGame
 
         public class Patrol : AbstractState<States, Monster1FSM>
         {
+            private bool moveLeft;
+            private bool patroling;
             public Patrol(FSM<States> fsm, Monster1FSM target) : base(fsm, target)
             {
             }
 
             protected override void OnEnter()
             {
+                patroling = true;
+                mTarget.StartCoroutine(Patroling());
+                mTarget.target = null;
             }
 
             protected override void OnUpdate()
             {
+                if(moveLeft)
+                {
+                    mTarget.GetSystem<MoveSystem>().Move(mTarget.sUid, Vector3.left);
+                }
+                else
+                {
+                    mTarget.GetSystem<MoveSystem>().Move(mTarget.sUid, Vector3.right);
+                }
 
+                //ºÏÀ˜ƒø±Í
+                var tree = GenerateTest.Instance.tree;
+                var ex = new Vector3(3, 3, 3);
+                Bounds bound = new() { center = mTarget.transform.position, extents = ex };
+                var targets = tree.QueryBounds(bound);
+
+                targets = targets.FindAll(o => mTarget.GetModel<EntityModel>().GetData(o.sUid).typeId == 0);
+                if(targets.Count > 0)
+                {
+                    mTarget.target = targets[0];
+                    if (Vector3.Distance(targets[0].transform.position, mTarget.transform.position) <= 3)
+                    {
+                        mFSM.ChangeState(States.Chase);
+                    }
+                }
+            }
+
+            private IEnumerator Patroling()
+            {
+                do
+                {
+                    yield return new WaitForSeconds(2);
+                    moveLeft = !moveLeft;
+                } while (patroling == true);
             }
 
             protected override void OnExit()
             {
+                patroling = false;
             }
         }
 
@@ -123,15 +214,53 @@ namespace RpgGame
 
             protected override void OnEnter()
             {
+                
             }
 
             protected override void OnUpdate()
             {
+                //ºÏ≤‚ «∑ÒªÿµΩ—≤¬ﬂŒª
+                if(Vector3.Distance(mTarget.transform.position, mTarget.generatePos) <= 0.1f)
+                {
+                    mFSM.ChangeState(States.Patrol);
+                    return;
+                }
 
+                //ºÏ≤‚ «∑ÒΩ¯»Î◊∑ª˜∑∂Œß
+                var distance = Vector3.Distance(mTarget.target.transform.position, mTarget.transform.position);
+                if (distance <= 3)
+                {
+                    mFSM.ChangeState(States.Chase);
+                    return;
+                }
+
+                //“∆∂Ø
+                var dir = Vector3.Normalize(mTarget.generatePos - mTarget.transform.position);
+                mTarget.GetSystem<MoveSystem>().Move(mTarget.sUid, dir);
             }
 
             protected override void OnExit()
             {
+            }
+        }
+
+        private void MoveAninmationControll()
+        {
+            if (lastPosition.x < transform.position.x)
+            {
+                animator.Play("MoveRight");
+            }
+            else if (lastPosition.x >= transform.position.x)
+            {
+                animator.Play("MoveLeft");
+            }
+            else if (lastPosition.z < transform.position.z)
+            {
+                animator.Play("MoveUp");
+            }
+            else if (lastPosition.z >= transform.position.z)
+            {
+                animator.Play("MoveDown");
             }
         }
     }

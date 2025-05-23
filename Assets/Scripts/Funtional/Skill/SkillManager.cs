@@ -10,6 +10,7 @@ namespace RpgGame.Skill
     {
         public List<SkillData> skills;
         private ResLoader mResLoader;
+        private string sUid;
 
         private void Awake()
         {
@@ -54,6 +55,11 @@ namespace RpgGame.Skill
                 data.skillPrefab = mResLoader.LoadSync<GameObject>(data.prefabName);
                 data.owner = gameObject;
             }
+        }
+
+        private void Start()
+        {
+            sUid = GetComponent<ObjMonoController>().GetsUid();
         }
 
         /// <summary>
@@ -121,6 +127,8 @@ namespace RpgGame.Skill
 
         private void OnAttack(AttackEvent context)
         {
+            if (context.sUid != sUid) return;
+
             var data = PrepareSkill(context.skillId);
             if (data != null) 
             {

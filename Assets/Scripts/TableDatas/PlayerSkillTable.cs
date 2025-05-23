@@ -89,6 +89,25 @@ public class PlayerSkillTable
 				SkillAttackType = SkillAttackType.Group,
 				SelectorType = SelectorType.Sector,
 			},
+			new PlayerSkillTable
+			{
+				Id = 1002,
+				Name = "LightningStorm",
+				Description = "释放闪电风暴",
+				Cd = 3,
+				CostEnergy = 5,
+				AttackDistrance = 1f,
+				AttackAngle = 360f,
+				ImpactType = new List<string> {"Damage","CostEnergy"},
+				AttackRatio = 0.7f,
+				DurationTime = 3f,
+				AttackInterval = 0.5f,
+				PrefabName = "LightningStorm",
+				AnimationName = "LightningStorm",
+				HitFxName = "LightningStorm",
+				SkillAttackType = SkillAttackType.Group,
+				SelectorType = SelectorType.Sector,
+			},
 		};
 	}
 	protected static Dictionary<int, PlayerSkillTable> TempDictById;
