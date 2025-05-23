@@ -35,6 +35,7 @@ namespace RpgGame.Skill
         {
             var sUid = data.owner.GetComponent<ObjMonoController>().GetsUid();
             var entityData = entityModel.GetData(sUid);
+            if (entityData == null) return;
             float value = data.attackRatio * entityData.property.ATK;
             for(int i = 0; i < data.targets.Count; i++) 
             {

@@ -11,6 +11,7 @@ namespace RpgGame.Skill
         public List<SkillData> skills;
         private ResLoader mResLoader;
         private string sUid;
+        private ObjMonoController controller;
 
         private void Awake()
         {
@@ -59,7 +60,16 @@ namespace RpgGame.Skill
 
         private void Start()
         {
-            sUid = GetComponent<ObjMonoController>().GetsUid();
+            //sUid = GetComponent<ObjMonoController>().GetsUid();
+            controller = GetComponent<ObjMonoController>();
+        }
+
+        private void OnEnable()
+        {
+            foreach(var skill in skills)
+            {
+                skill.cdRemain = 0;
+            }
         }
 
         /// <summary>
@@ -127,7 +137,7 @@ namespace RpgGame.Skill
 
         private void OnAttack(AttackEvent context)
         {
-            if (context.sUid != sUid) return;
+            if (context.sUid != controller.GetsUid()) return;
 
             var data = PrepareSkill(context.skillId);
             if (data != null) 

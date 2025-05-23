@@ -2,11 +2,10 @@ using QFramework;
 using RpgGame.Skill;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 namespace RpgGame
 {
-    public class Monster1FSM : MonoBehaviour, IController, ICanSendEvent
+    public class Monster2FSM : MonoBehaviour, IController, ICanSendEvent
     {
         private string sUid;
         private Vector3 lastPosition;
@@ -68,9 +67,9 @@ namespace RpgGame
 
         public IArchitecture GetArchitecture() => RpgGame.Interface;
 
-        public class Idle : AbstractState<States, Monster1FSM>
+        public class Idle : AbstractState<States, Monster2FSM>
         {
-            public Idle(FSM<States> fsm, Monster1FSM target) : base(fsm, target) { }
+            public Idle(FSM<States> fsm, Monster2FSM target) : base(fsm, target) { }
 
 
             protected override void OnEnter()
@@ -80,7 +79,7 @@ namespace RpgGame
 
             protected override void OnUpdate()
             {
-                
+
             }
 
             protected override void OnExit()
@@ -89,9 +88,9 @@ namespace RpgGame
             }
         }
 
-        public class Attack : AbstractState<States, Monster1FSM>
+        public class Attack : AbstractState<States, Monster2FSM>
         {
-            public Attack(FSM<States> fsm, Monster1FSM target) : base(fsm, target)
+            public Attack(FSM<States> fsm, Monster2FSM target) : base(fsm, target)
             {
             }
 
@@ -104,11 +103,11 @@ namespace RpgGame
                 //¹¥»÷
                 var attackDir = mTarget.target.transform.position - mTarget.transform.position;
                 Quaternion skillRotation = Quaternion.LookRotation(attackDir);
-                mTarget.SendEvent(new AttackEvent() { sUid = mTarget.controller.GetsUid(), skillId = 1001, skillRotation = skillRotation });
+                mTarget.SendEvent(new AttackEvent() { sUid = mTarget.controller.GetsUid(), skillId = 1002, skillRotation = skillRotation });
 
                 //¼ì²âÊÇ·ñ´¦ÓÚ¹¥»÷·¶Î§
                 var distance = Vector3.Distance(mTarget.target.transform.position, mTarget.transform.position);
-                if (distance > 1.5)
+                if (distance > 2)
                 {
                     mFSM.ChangeState(States.Back);
                 }
@@ -119,9 +118,9 @@ namespace RpgGame
             }
         }
 
-        public class Chase : AbstractState<States, Monster1FSM>
+        public class Chase : AbstractState<States, Monster2FSM>
         {
-            public Chase(FSM<States> fsm, Monster1FSM target) : base(fsm, target)
+            public Chase(FSM<States> fsm, Monster2FSM target) : base(fsm, target)
             {
             }
 
@@ -138,7 +137,7 @@ namespace RpgGame
 
                 //¼ì²âÊÇ·ñµ½´ï¹¥»÷¾àÀë
                 var distance = Vector3.Distance(mTarget.target.transform.position, mTarget.transform.position);
-                if(distance <= 1.5)
+                if (distance <= 2)
                 {
                     mFSM.ChangeState(States.Attack);
                 }
@@ -155,11 +154,11 @@ namespace RpgGame
             }
         }
 
-        public class Patrol : AbstractState<States, Monster1FSM>
+        public class Patrol : AbstractState<States, Monster2FSM>
         {
             private bool moveLeft;
             private bool patroling;
-            public Patrol(FSM<States> fsm, Monster1FSM target) : base(fsm, target)
+            public Patrol(FSM<States> fsm, Monster2FSM target) : base(fsm, target)
             {
             }
 
@@ -172,13 +171,13 @@ namespace RpgGame
 
             protected override void OnUpdate()
             {
-                if(moveLeft)
+                if (moveLeft)
                 {
-                    mTarget.GetSystem<MoveSystem>().Move(mTarget.controller.GetsUid(), Vector3.left);
+                    mTarget.GetSystem<MoveSystem>().Move(mTarget.controller.GetsUid(), Vector3.forward);
                 }
                 else
                 {
-                    mTarget.GetSystem<MoveSystem>().Move(mTarget.controller.GetsUid(), Vector3.right);
+                    mTarget.GetSystem<MoveSystem>().Move(mTarget.controller.GetsUid(), Vector3.back);
                 }
 
                 //¼ìË÷Ä¿±ê
@@ -188,7 +187,7 @@ namespace RpgGame
                 var targets = tree.QueryBounds(bound);
 
                 targets = targets.FindAll(o => mTarget.GetModel<EntityModel>().GetData(o.sUid).typeId == 0);
-                if(targets.Count > 0)
+                if (targets.Count > 0)
                 {
                     mTarget.target = targets[0];
                     if (Vector3.Distance(targets[0].transform.position, mTarget.transform.position) <= 3)
@@ -213,21 +212,21 @@ namespace RpgGame
             }
         }
 
-        public class Back : AbstractState<States, Monster1FSM>
+        public class Back : AbstractState<States, Monster2FSM>
         {
-            public Back(FSM<States> fsm, Monster1FSM target) : base(fsm, target)
+            public Back(FSM<States> fsm, Monster2FSM target) : base(fsm, target)
             {
             }
 
             protected override void OnEnter()
             {
-                
+
             }
 
             protected override void OnUpdate()
             {
                 //¼ì²âÊÇ·ñ»Øµ½Ñ²ÂßÎ»
-                if(Vector3.Distance(mTarget.transform.position, mTarget.generatePos) <= 0.1f)
+                if (Vector3.Distance(mTarget.transform.position, mTarget.generatePos) <= 0.1f)
                 {
                     mFSM.ChangeState(States.Patrol);
                     return;
@@ -257,7 +256,7 @@ namespace RpgGame
             {
                 animator.Play("MoveRight");
             }
-            else if (lastPosition.x >= transform.position.x)
+            else if (lastPosition.x > transform.position.x)
             {
                 animator.Play("MoveLeft");
             }
@@ -273,7 +272,7 @@ namespace RpgGame
 
         private void DepthDeal()
         {
-            if (this.GetModel<EntityModel>().GetData(controller.GetsUid())?.property.Hp <= 0)
+            if(this.GetModel<EntityModel>().GetData(controller.GetsUid())?.property.Hp <= 0)
             {
                 //sUid = null;
                 this.GetSystem<EntitySystem>().CollectEntity(gameObject);

@@ -64,7 +64,7 @@ public class BasePropertyTable
 			new BasePropertyTable
 			{
 				Id = 1,
-				BaseHp = 50f,
+				BaseHp = 30f,
 				BaseMp = 10f,
 				BaseATK = 10f,
 				BaseDEF = 2f,
@@ -77,7 +77,7 @@ public class BasePropertyTable
 			{
 				Id = 2,
 				BaseHp = 20f,
-				BaseMp = 10f,
+				BaseMp = 100f,
 				BaseATK = 5f,
 				BaseDEF = 2f,
 				BaseCrit = 0.01f,

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2910924496532974639}
   - component: {fileID: 1949012363753702119}
   - component: {fileID: 2522199983508981289}
+  - component: {fileID: 8833398801766184782}
+  - component: {fileID: 7779235639957240815}
   m_Layer: 0
   m_Name: Monster2
   m_TagString: Enemy
@@ -120,3 +122,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8833398801766184782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2953938826102959582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee62ab41d0136e40b92c1acc6c1b2d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7779235639957240815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2953938826102959582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed4604c3421826f4fa932ed086d87ecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills: []
