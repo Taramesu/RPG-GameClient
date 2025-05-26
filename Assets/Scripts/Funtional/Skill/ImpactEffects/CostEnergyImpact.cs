@@ -8,7 +8,8 @@ namespace RpgGame.Skill
         {
             var sUid = deployer.SkillData.owner.GetComponent<ObjMonoController>().GetsUid();
             var data = this.GetModel<EntityModel>().GetData(sUid);
-            data.property.Mp -= deployer.SkillData.costEnergy;
+            this.GetModel<EntityModel>().UpdateMp(sUid ,deployer.SkillData.costEnergy);
+            //data.property.Mp -= deployer.SkillData.costEnergy;
         }
 
         public IArchitecture GetArchitecture() => RpgGame.Interface;

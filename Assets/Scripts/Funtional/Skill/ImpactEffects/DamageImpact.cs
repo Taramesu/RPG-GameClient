@@ -42,7 +42,8 @@ namespace RpgGame.Skill
                 //…À∫¶∑Ω∑®
                 var target = entityModel.GetData(data.targets[i].sUid);
                 if (target.typeId == entityData.typeId) continue;
-                target.property.Hp -= value;
+                entityModel.UpdateHp(target.sUid, value);
+                //target.property.Hp -= value;
                 Debug.Log($"target : {target.name} remain HP : {target.property.Hp}");
             }
         }

@@ -8,6 +8,18 @@ namespace RpgGame
         public EntityData data;
     }
 
+    public class EntityHpUpdateEvent
+    {
+        public string sUid;
+        public float Hp;
+    }
+
+    public class EntityMpUpdateEvent
+    {
+        public string sUid;
+        public float Mp;
+    }
+
     public class EntityPositionUpdateEvent
     {
         public string sUid;

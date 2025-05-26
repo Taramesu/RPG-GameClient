@@ -65,6 +65,24 @@ namespace RpgGame
             return false;
         }
 
+        public void UpdateHp(string sUid, float value)
+        {
+            if(datas.ContainsKey(sUid))
+            {
+                datas[sUid].property.Hp -= value;
+                this.SendEvent(new EntityHpUpdateEvent { sUid = sUid, Hp = datas[sUid].property.Hp });
+            }
+        }
+
+        public void UpdateMp(string sUid, float value)
+        {
+            if (datas.ContainsKey(sUid))
+            {
+                datas[sUid].property.Mp -= value;
+                this.SendEvent(new EntityMpUpdateEvent { sUid = sUid, Mp = datas[sUid].property.Mp });
+            }
+        }
+
         public bool UpdatePosition(string sUid, Vector3 value)
         {
             if(datas.ContainsKey(sUid)) 

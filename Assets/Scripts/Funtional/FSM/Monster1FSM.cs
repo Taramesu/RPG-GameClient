@@ -135,7 +135,6 @@ namespace RpgGame
                 //“∆∂Ø
                 var dir = Vector3.Normalize(mTarget.target.transform.position - mTarget.transform.position);
                 mTarget.GetSystem<MoveSystem>().Move(mTarget.controller.GetsUid(), dir);
-
                 //ºÏ≤‚ «∑ÒµΩ¥Ôπ•ª˜æ‡¿Î
                 var distance = Vector3.Distance(mTarget.target.transform.position, mTarget.transform.position);
                 if(distance <= 1.5)
